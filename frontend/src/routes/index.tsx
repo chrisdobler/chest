@@ -1,11 +1,12 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
+
+import ListContainer from '../containers/ListContainer';
+
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 const Routes = props => (
   <Router {...props}>
     <Route path="/" component={ListContainer}>
-      <Route path="/contact" component={Contact} />
-      <Route path="*" component={NotFound} />
     </Route>
   </Router>
 );

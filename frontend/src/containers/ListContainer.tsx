@@ -1,14 +1,14 @@
 /* tslint:disable */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 import { withStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -18,28 +18,76 @@ const styles = (theme: Theme) => ({
   }
 });
 
+const items = [
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  },
+  {
+    primary: 'Photos',
+    secondary: 'Jan 9, 2014',
+    image: '/static/images/avatar/1.jpg'
+  }
+];
+
 function FolderList(props: { classes: object }) {
   const { classes } = props;
   return (
     <List className={classes.root}>
-      <ListItem>
-        <Avatar>
-          <ImageIcon />
-        </Avatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      </ListItem>
-      <ListItem>
-        <Avatar>
-          <WorkIcon />
-        </Avatar>
-        <ListItemText primary="Work" secondary="Jan 7, 2014" />
-      </ListItem>
-      <ListItem>
-        <Avatar>
-          <BeachAccessIcon />
-        </Avatar>
-        <ListItemText primary="Vacation" secondary="July 20, 2014" />
-      </ListItem>
+      {items.map(({ id, image, primary, secondary }) => (
+        <Link to={`/item/${id}`}>
+          <ListItem>
+            <Avatar alt="Remy Sharp" src={image} />
+            <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+          </ListItem>
+        </Link>
+      ))}
     </List>
   );
 }
