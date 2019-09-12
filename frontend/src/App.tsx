@@ -2,11 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import AppBar from './AppBar';
+import { browserHistory } from 'react-router';
+import Routes from './routes';
+
+import AppBar from './layout/AppBar';
 
 const App: React.FC = () => {
   return (
     <div className="App">
+      <Routes history={browserHistory} />
       <header className="App-header">
         <AppBar />
         <img src={logo} className="App-logo" alt="logo" />
