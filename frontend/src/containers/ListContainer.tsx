@@ -81,7 +81,7 @@ function FolderList(props: { classes: object }) {
   return (
     <List className={classes.root}>
       {items.map(({ id, image, primary, secondary }) => (
-        <Link to={`/item/${id}`}>
+        <Link to={`/items/${id}`}>
           <ListItem>
             <Avatar alt="Remy Sharp" src={image} />
             <ListItemText primary="Photos" secondary="Jan 9, 2014" />
