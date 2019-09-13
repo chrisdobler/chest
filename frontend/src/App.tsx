@@ -11,7 +11,9 @@ const App: React.FC = () => {
       <header className="App-header">
         <AppBar />
       </header>
-      <Routes />
+      <body className="appBody">
+        <Routes />
+      </body>
     </div>
   );
 };

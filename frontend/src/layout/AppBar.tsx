@@ -5,6 +5,7 @@ import {
   Theme,
   createStyles
 } from '@material-ui/core/styles';
+// import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,10 +30,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2)
     },
     title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block'
-      }
+      // display: 'none'
+      // [theme.breakpoints.up('sm')]: {
+      display: 'block'
+      // }
     },
     search: {
       position: 'relative',
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
         width: 'auto'
+      },
+      [theme.breakpoints.down('md')]: {
+        display: 'none'
       }
     },
     searchIcon: {
@@ -56,7 +60,10 @@ const useStyles = makeStyles((theme: Theme) =>
       pointerEvents: 'none',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      [theme.breakpoints.down('md')]: {
+        display: 'none'
+      }
     },
     inputRoot: {
       color: 'inherit'
@@ -67,6 +74,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       [theme.breakpoints.up('md')]: {
         width: 200
+      },
+      [theme.breakpoints.down('md')]: {
+        display: 'none'
       }
     },
     sectionDesktop: {
@@ -74,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('md')]: {
         display: 'flex'
       }
+    },
+    sectionAll: {
+      display: 'flex'
     },
     sectionMobile: {
       display: 'flex',
@@ -139,22 +152,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <AddIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <ChestPlus />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -218,6 +215,18 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
+            </IconButton>
+          </div>
+          <div className={classes.sectionAll}>
+            {/* <Link to="/items/add"> */}
+            <IconButton aria-label="Add Item" color="inherit">
+              <AddIcon />
+            </IconButton>
+            {/* </Link> */}
+            <IconButton aria-label="Add Chest" color="inherit">
+              <Badge badgeContent={11} color="secondary">
+                <ChestPlus />
+              </Badge>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
