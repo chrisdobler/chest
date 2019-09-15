@@ -5,7 +5,7 @@ import {
   Theme,
   createStyles
 } from '@material-ui/core/styles';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +20,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddIcon from '@material-ui/icons/Add';
 import ChestPlus from '../icons/ChestPlus';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import brown from '@material-ui/core/colors/brown';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2)
+    },
+    appBar: {
+      // color: brown[500],
+      backgroundColor: brown[500]
     },
     title: {
       // display: 'none'
@@ -168,7 +173,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -196,16 +201,6 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <AddIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <ChestPlus />
-              </Badge>
-            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -218,12 +213,18 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </div>
           <div className={classes.sectionAll}>
-            {/* <Link to="/items/add"> */}
-            <IconButton aria-label="Add Item" color="inherit">
+            <IconButton
+              containerElement={<Link to="/items/add" />}
+              aria-label="Add Item"
+              color="inherit"
+            >
               <AddIcon />
             </IconButton>
-            {/* </Link> */}
-            <IconButton aria-label="Add Chest" color="inherit">
+            <IconButton
+              containerElement={<Link to="/items" />}
+              aria-label="Add Chest"
+              color="inherit"
+            >
               <Badge badgeContent={11} color="secondary">
                 <ChestPlus />
               </Badge>
