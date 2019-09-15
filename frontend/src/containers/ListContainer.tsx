@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 
+import Quickview from './QuickviewContainer';
+
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
@@ -76,24 +78,27 @@ const items = [
   }
 ];
 
-function FolderList(props: { classes: object }) {
+function InventoryList(props: { classes: object }) {
   const { classes } = props;
   return (
-    <List className={classes.root}>
-      {items.map(({ id, image, primary, secondary }) => (
-        <Link to={`/items/${id}`}>
-          <ListItem>
-            <Avatar alt="Remy Sharp" src={image} />
-            <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-          </ListItem>
-        </Link>
-      ))}
-    </List>
+    <div>
+      <Quickview />
+      <List className={classes.root}>
+        {items.map(({ id, image, primary, secondary }) => (
+          <Link to={`/items/${id}`}>
+            <ListItem>
+              <Avatar alt="Remy Sharp" src={image} />
+              <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </div>
   );
 }
 
-FolderList.propTypes = {
+InventoryList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(FolderList);
+export default withStyles(styles)(InventoryList);
