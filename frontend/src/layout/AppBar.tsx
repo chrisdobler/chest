@@ -20,6 +20,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddIcon from '@material-ui/icons/Add';
 import ChestPlus from '../icons/ChestPlus';
 import MoreIcon from '@material-ui/icons/MoreVert';
+
 import brown from '@material-ui/core/colors/brown';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -214,14 +215,16 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.sectionAll}>
             <IconButton
-              containerElement={<Link to="/items/add" />}
+              // containerElement={<Link to="/items/add" />}
+              component={({ ...props }) => <Link to="/items/add" {...props} />}
               aria-label="Add Item"
               color="inherit"
             >
               <AddIcon />
             </IconButton>
             <IconButton
-              containerElement={<Link to="/items" />}
+              // containerElement={<Link to="/items" />}
+              component={({ ...props }) => <Link to="/items" {...props} />}
               aria-label="Add Chest"
               color="inherit"
             >

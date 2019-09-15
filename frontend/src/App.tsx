@@ -14,16 +14,16 @@ import { cyan500 } from 'material-ui/styles/colors';
 
 const muiTheme = getMuiTheme({
   palette: {
-    textColor: cyan500,
-    primary1Color: cyan500,
-    primary2Color: cyan500,
-    accent1Color: cyan500,
-    pickerHeaderColor: cyan500,
-    alternateTextColor: cyan500,
-    contrastText: 'rgba(0,0,0,0.8)'
+    // textColor: cyan500,
+    // primary1Color: cyan500,
+    // primary2Color: cyan500,
+    // accent1Color: cyan500,
+    // pickerHeaderColor: cyan500,
+    // alternateTextColor: cyan500,
+    // contrastText: 'rgba(0,0,0,0.8)'
   },
   appBar: {
-    height: 60
+    // height: 60
   }
 });
 
