@@ -43,8 +43,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column'
+      // flexWrap: 'wrap',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     additionalDetailsContainer: {
       flexDirection: 'column'
@@ -62,6 +64,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menu: {
       width: 200
+    },
+    textPanel: {
+      fontSize: '20px',
+      marginRight: '51px'
     }
   })
 );
@@ -103,8 +109,11 @@ export default connect(
   };
 
   return (
-    <div>
-      <img src={homeImage} />
+    <div className={classes.container}>
+      <div className={classes.textPanel}>Home</div>
+      <div>
+        <img src={homeImage} />
+      </div>
     </div>
   );
 });
