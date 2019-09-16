@@ -10,7 +10,7 @@ interface Container {
 
 interface Tag {}
 
-interface Item {
+export interface Item {
   id: string;
   photos: Array<Photo>;
   location: Container;

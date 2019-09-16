@@ -1,5 +1,5 @@
 /* tslint:disable */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -12,6 +12,10 @@ import ImageIcon from '@material-ui/icons/Image';
 
 import Quickview from './QuickviewContainer';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as inventoryActions from '../actions/inventory';
+
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
@@ -19,6 +23,17 @@ const styles = (theme: Theme) => ({
     backgroundColor: theme.palette.background.paper
   }
 });
+
+function mapStateToProps(state, props) {
+  return {
+    inventory: state.inventory
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(inventoryActions, dispatch)
+  };
+}
 
 const items = [
   {
@@ -80,6 +95,12 @@ const items = [
 
 function InventoryList(props: { classes: object }) {
   const { classes } = props;
+
+  useEffect(() => {
+    // Your code here
+    console.log('loading.ewew', props.inventory);
+  }, []);
+
   return (
     <div>
       <Quickview />
@@ -101,4 +122,7 @@ InventoryList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(InventoryList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(InventoryList));

@@ -94,6 +94,11 @@ export default connect(
     currency: 'EUR'
   });
 
+  React.useEffect(() => {
+    console.log('hello', values);
+    inventoryActions.addItemToInventory(values);
+  }, [values]);
+
   const handleChange = (name: keyof State) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {

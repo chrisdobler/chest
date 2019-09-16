@@ -1,8 +1,9 @@
+import * as Types from '../types/inventory';
 // src/actions/cart.js
-export const addToCart = item => {
+export const addItemToInventory = (item: Types.Item) => {
   console.log('adding item:', item);
   return {
-    type: add,
+    type: 'add',
     item
   };
 };
