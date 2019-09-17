@@ -85,7 +85,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(function OutlinedTextFields() {
+)(function OutlinedTextFields(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
     name: 'Cat in the Hat',
@@ -96,7 +96,7 @@ export default connect(
 
   React.useEffect(() => {
     console.log('hello', values);
-    inventoryActions.addItemToInventory(values);
+    props.actions.addItemToInventory(values);
   }, [values]);
 
   const handleChange = (name: keyof State) => (
