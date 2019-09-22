@@ -12,6 +12,29 @@ import brown from '@material-ui/core/colors/brown';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    grow: {
+      position: 'relative',
+      overflow: 'hidden'
+    },
+    visible: {
+      display: 'flex'
+    },
+    button: {
+      maxWidth: '60px',
+      height: '60px',
+      width: '60px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    hidden: {
+      // position: 'relative',
+      zIndex: 2,
+      opacity: 0,
+      position: 'absolute',
+      left: 0,
+      height: '100%'
+    },
     sectionDesktop: {
       display: 'none',
       [theme.breakpoints.up('md')]: {
@@ -73,11 +96,14 @@ export default function ImagePicker() {
         type="file"
         accept="image/*"
         id="inputPhoto"
-        className="hidden"
+        className={classes.hidden}
         capture="environment"
       />
-      <div>
-        <AddIcon />
+      <div className={classes.visible}>
+        <div className={classes.button}>
+          <AddIcon />
+        </div>
+        <div>Add Photos</div>
       </div>
     </div>
   );
