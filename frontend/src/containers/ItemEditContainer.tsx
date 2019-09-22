@@ -14,7 +14,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as inventoryActions from '../actions/inventory';
 
-import ImagePicker from '../components/imagePicker';
+import ImagePicker from '../components/ImagePicker';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -110,6 +110,8 @@ export default connect(
   return (
     <div>
       <form className={classes.container} noValidate autoComplete="off">
+        <ImagePicker />
+
         <TextField
           id="outlined-name"
           label="Name"
