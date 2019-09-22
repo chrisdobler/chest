@@ -6,70 +6,12 @@ import {
   createStyles
 } from '@material-ui/core/styles';
 
+import AddIcon from '@material-ui/icons/Add';
+
 import brown from '@material-ui/core/colors/brown';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    grow: {
-      flexGrow: 1
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    appBar: {
-      // color: brown[500],
-      backgroundColor: brown[500]
-    },
-    title: {
-      // display: 'none'
-      // [theme.breakpoints.up('sm')]: {
-      display: 'block'
-      // }
-    },
-    search: {
-      position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25)
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto'
-      },
-      [theme.breakpoints.down('md')]: {
-        display: 'none'
-      }
-    },
-    searchIcon: {
-      width: theme.spacing(7),
-      height: '100%',
-      position: 'absolute',
-      pointerEvents: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      [theme.breakpoints.down('md')]: {
-        display: 'none'
-      }
-    },
-    inputRoot: {
-      color: 'inherit'
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 7),
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: 200
-      },
-      [theme.breakpoints.down('md')]: {
-        display: 'none'
-      }
-    },
     sectionDesktop: {
       display: 'none',
       [theme.breakpoints.up('md')]: {
@@ -104,8 +46,8 @@ export default function ImagePicker() {
   // document.getElementById('inputPhoto').click();
 
   // event handler for change
-  function onInputPhotoChange() {
-    console.log('changed');
+  function onInputPhotoChange(data) {
+    console.log(document.getElementById('inputPhoto').files);
     if (document.getElementById('inputPhoto').files.length === 0) {
       console.log('no length');
       return;
@@ -113,6 +55,7 @@ export default function ImagePicker() {
 
     var reader = new window.FileReader();
     reader.onloadend = function(event) {
+      console.log('filereader', event);
       // event.target.result;
       // image data
       // note you may need to rotate using EXIF data on a canvas
@@ -130,9 +73,12 @@ export default function ImagePicker() {
         type="file"
         accept="image/*"
         id="inputPhoto"
-        class="hidden"
+        className="hidden"
         capture="environment"
       />
+      <div>
+        <AddIcon />
+      </div>
     </div>
   );
 }

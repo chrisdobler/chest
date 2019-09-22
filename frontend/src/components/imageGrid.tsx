@@ -2,7 +2,9 @@ import React from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import tileData from './tileData';
+// import tileData from './tileData';
+
+import image from '../containers/house.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper
     },
     gridList: {
-      width: 500,
-      height: 450
+      width: 350,
+      height: 60
     }
   })
 );
@@ -38,6 +40,16 @@ const useStyles = makeStyles((theme: Theme) =>
  *   },
  * ];
  */
+
+const tileData = [
+  {
+    img: image,
+    title: 'Image',
+    author: 'author',
+    cols: 2
+  }
+];
+
 export default function ImageGridList() {
   const classes = useStyles();
 

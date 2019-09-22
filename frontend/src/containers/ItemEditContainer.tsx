@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import * as inventoryActions from '../actions/inventory';
 
 import ImagePicker from '../components/ImagePicker';
+import ImageGrid from '../components/ImageGrid';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -62,6 +63,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menu: {
       width: 200
+    },
+    imageShelf: {
+      display: 'flex'
     }
   })
 );
@@ -110,17 +114,10 @@ export default connect(
   return (
     <div>
       <form className={classes.container} noValidate autoComplete="off">
-        <ImagePicker />
-
-        <TextField
-          id="outlined-name"
-          label="Name"
-          className={classes.textField}
-          value={values.name}
-          onChange={handleChange('name')}
-          margin="normal"
-          variant="outlined"
-        />
+        <div className={classes.imageShelf}>
+          <ImagePicker />
+          <ImageGrid />
+        </div>
 
         <TextField
           id="outlined-uncontrolled"
