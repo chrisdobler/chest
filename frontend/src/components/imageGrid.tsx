@@ -7,10 +7,6 @@ import {
 } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-// import tileData from './tileData';
-
-import image from '../containers/house.png';
-import { width } from '@material-ui/system';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,41 +35,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     cols: 2,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-
-const tileData = [
-  {
-    img: image,
-    title: 'Image',
-    author: 'author',
-    cols: 2
-  }
-];
-
-export default function ImageGridList() {
+export default function ImageGridList(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
-        {tileData.map(tile => (
+        {props.images.map(tile => (
           <GridListTile
             classes={{ tile: classes.tile, root: classes.root }}
             key={tile.img}

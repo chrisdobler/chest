@@ -21,6 +21,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import image from '../containers/house.png';
+
 const currencies = [
   {
     value: 'USD',
@@ -111,12 +113,21 @@ export default connect(
     setValues({ ...values, [name]: event.target.value });
   };
 
+  const images = [
+    {
+      img: image,
+      title: 'Image',
+      author: 'author',
+      cols: 2
+    }
+  ];
+
   return (
     <div>
       <form className={classes.container} noValidate autoComplete="off">
         <div className={classes.imageShelf}>
           <ImagePicker />
-          <ImageGrid />
+          <ImageGrid images={images} />
         </div>
 
         <TextField

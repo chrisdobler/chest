@@ -49,6 +49,11 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('md')]: {
         display: 'none'
       }
+    },
+    addPhotosPlaceholder: {
+      width: '155px',
+      display: 'flex',
+      alignItems: 'center'
     }
   })
 );
@@ -103,7 +108,7 @@ export default function ImagePicker() {
         <div className={classes.button}>
           <AddIcon />
         </div>
-        <div>Add Photos</div>
+        <div className={classes.addPhotosPlaceholder}>Add Photos</div>
       </div>
     </div>
   );
