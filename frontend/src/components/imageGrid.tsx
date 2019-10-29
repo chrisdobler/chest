@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper
     },
     gridList: {
-      width: 350,
       height: 60
     },
     tile: {

@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 // https://egghead.io/lessons/react-access-the-camera-in-a-pwa-built-with-react
 
-export default function ImagePicker() {
+export default function ImagePicker({ showHelper = true }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [
@@ -108,7 +108,9 @@ export default function ImagePicker() {
         <div className={classes.button}>
           <AddIcon />
         </div>
-        <div className={classes.addPhotosPlaceholder}>Add Photos</div>
+        {showHelper && (
+          <div className={classes.addPhotosPlaceholder}>Add Photos</div>
+        )}
       </div>
     </div>
   );

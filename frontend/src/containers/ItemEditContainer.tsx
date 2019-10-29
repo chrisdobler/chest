@@ -126,7 +126,7 @@ export default connect(
     <div>
       <form className={classes.container} noValidate autoComplete="off">
         <div className={classes.imageShelf}>
-          <ImagePicker />
+          <ImagePicker showHelper={images.length < 1} />
           <ImageGrid images={images} />
         </div>
 
