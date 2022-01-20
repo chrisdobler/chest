@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper
     },
     gridList: {
-      height: 60
+      height: 60,
+      margin: '0px !important'
     },
     tile: {
       width: '60px',
@@ -28,8 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     root: {
       width: '66.6667%',
-      height: 64,
-      padding: '2px'
+      height: '60px !important',
+      padding: '0px !important',
+      overflow: 'visible'
     }
   })
 );

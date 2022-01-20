@@ -75,7 +75,6 @@ export default function ImagePicker({ showHelper = true }) {
 
   // event handler for change
   function onInputPhotoChange(data) {
-    console.log(document.getElementById('inputPhoto').files);
     if (document.getElementById('inputPhoto').files.length === 0) {
       console.log('no length');
       return;
