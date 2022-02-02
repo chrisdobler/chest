@@ -17,112 +17,115 @@ import { connect } from 'react-redux';
 import * as inventoryActions from '../actions/inventory';
 
 const styles = (theme: Theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  }
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
 });
 
 function mapStateToProps(state, props) {
-  return {
-    inventory: state.inventory
-  };
+    return {
+        inventory: state.inventory,
+    };
 }
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(inventoryActions, dispatch)
-  };
+    return {
+        actions: bindActionCreators(inventoryActions, dispatch),
+    };
 }
 
 const items = [
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  },
-  {
-    primary: 'Photos',
-    secondary: 'Jan 9, 2014',
-    image: '/static/images/avatar/1.jpg'
-  }
-];
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+    {
+        primary: 'Photos',
+        secondary: 'Jan 9, 2014',
+        image: '/static/images/avatar/1.jpg',
+    },
+].map((i, id) => ({ ...i, id }));
 
 function InventoryList(props: { classes: object }) {
-  const { classes } = props;
+    const { classes } = props;
 
-  useEffect(() => {
-    // Your code here
-    console.log('loading.ewew', props.inventory);
-  }, []);
+    useEffect(() => {
+        // Your code here
+        console.log('loading.ewew', props.inventory);
+    }, []);
 
-  return (
-    <div>
-      <Quickview />
-      <List className={classes.root}>
-        {items.map(({ id, image, primary, secondary }) => (
-          <Link to={`/items/${id}`}>
-            <ListItem>
-              <Avatar alt="Remy Sharp" src={image} />
-              <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-    </div>
-  );
+    return (
+        <div>
+            <Quickview />
+            <List className={classes.root}>
+                {items.map(({ id, image, primary, secondary }) => (
+                    <Link to={`/items/${id}`}>
+                        <ListItem>
+                            <Avatar alt="Remy Sharp" src={image} />
+                            <ListItemText
+                                primary="Photos"
+                                secondary="Jan 9, 2014"
+                            />
+                        </ListItem>
+                    </Link>
+                ))}
+            </List>
+        </div>
+    );
 }
 
 InventoryList.propTypes = {
-  classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withStyles(styles)(InventoryList));
