@@ -62,23 +62,17 @@ const useStyles = makeStyles((theme: Theme) =>
 // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 // https://egghead.io/lessons/react-access-the-camera-in-a-pwa-built-with-react
 
-export default function ImagePicker({ showHelper = true }) {
+export default function ImagePicker({ showHelper = true, onUpload }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
 
-    // trigger capture
-    // document.getElementById('inputPhoto').click();
-
     // event handler for change
     function onInputPhotoChange(data) {
         const reader = new window.FileReader();
-        reader.onloadend = function (event) {
-            console.log('filereader', event);
-            // event.target.result;
-            // image data
-            // note you may need to rotate using EXIF data on a canvas
+        reader.onload = function (event) {
+            onUpload({ src: reader.result });
         };
 
         // Read the file into memory as dataurl

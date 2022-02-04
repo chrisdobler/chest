@@ -114,7 +114,7 @@ export default connect(
         const item = {
             photos: [
                 {
-                    img: './containers/house.png',
+                    src: './containers/house.png',
                     title: 'Image',
                     author: 'author',
                     cols: 2,
@@ -124,7 +124,6 @@ export default connect(
             tags: ['electronics'],
         };
 
-        props.itemActions.addPhotoToItem(item.photos[0]);
     }, [values]);
 
     const handleChange =
@@ -138,7 +137,10 @@ export default connect(
         <div>
             <form className={classes.container} noValidate autoComplete="off">
                 <div className={classes.imageShelf}>
-                    <ImagePicker showHelper={props.images.length < 1} />
+                    <ImagePicker
+                        onUpload={props.itemActions.addPhotoToItem}
+                        showHelper={props.images.length < 1}
+                    />
                     <ImageGrid images={props.images} />
                 </div>
 
