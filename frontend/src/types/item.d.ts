@@ -1,6 +1,6 @@
 interface Photo {
     id: string;
-    url: string;
+    src: string;
 }
 
 interface Container {

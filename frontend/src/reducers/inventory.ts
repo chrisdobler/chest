@@ -1,6 +1,6 @@
 export default (state = [], payload) => {
     switch (payload.type) {
-        case 'add':
+        case 'addItem':
             return [...state, payload.item];
         default:
             return state;

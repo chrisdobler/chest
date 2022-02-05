@@ -3,7 +3,7 @@ import * as Types from '../types/item';
 export const addItemToInventory = (item: Types.Item) => {
     console.log('adding item:', item);
     return {
-        type: 'add',
+        type: 'addItem',
         item,
     };
 };

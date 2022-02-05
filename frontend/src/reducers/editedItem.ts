@@ -3,6 +3,7 @@ export default (
         photos: [],
         location: '',
         tags: [],
+        values: [],
     },
     payload
 ) => {
@@ -11,6 +12,9 @@ export default (
             return { ...state, photos: [...state.photos, payload.photo] };
         case 'getPhotos':
             return state.photos;
+        case 'setValue':
+            console.log(payload);
+            return { ...state, values: [...state.values, payload.value] };
         default:
             return state;
     }

@@ -84,6 +84,7 @@ function mapStateToProps(state, props) {
     return {
         inventory: state.inventory,
         images: state.editedItem.photos,
+        values: state.editedItem.values || {},
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -98,40 +99,16 @@ export default connect(
     mapDispatchToProps
 )(function OutlinedTextFields(props) {
     const classes = useStyles();
-    const [values, setValues] = React.useState<State>({
-        name: 'Cat in the Hat',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
-    });
 
-    React.useEffect(() => {
-        // testing out adding items to state
-
-        console.log('hello', values);
-        props.actions.addItemToInventory(values);
-
-        const item = {
-            photos: [
-                {
-                    src: './containers/house.png',
-                    title: 'Image',
-                    author: 'author',
-                    cols: 2,
-                },
-            ],
-            location: 'box1010',
-            tags: ['electronics'],
-        };
-
-    }, [values]);
+    React.useEffect(() => {}, []);
 
     const handleChange =
         (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-            setValues({ ...values, [name]: event.target.value });
+            props.itemActions.setValues({
+                ...props.values,
+                [name]: event.target.value,
+            });
         };
-
-    console.log('props.images', props.images);
 
     return (
         <div>
@@ -258,7 +235,7 @@ export default connect(
                             label="Multiline"
                             multiline
                             rowsMax="4"
-                            value={values.multiline}
+                            value={props.values.multiline || ''}
                             onChange={handleChange('multiline')}
                             className={classes.textField}
                             margin="normal"
@@ -304,7 +281,7 @@ export default connect(
                         <TextField
                             id="outlined-number"
                             label="Number"
-                            value={values.age}
+                            value={props.values.age || ''}
                             onChange={handleChange('age')}
                             type="number"
                             className={classes.textField}
@@ -327,7 +304,7 @@ export default connect(
                             select
                             label="Select"
                             className={classes.textField}
-                            value={values.currency}
+                            value={props.values.currency || ''}
                             onChange={handleChange('currency')}
                             SelectProps={{
                                 MenuProps: {
@@ -352,7 +329,7 @@ export default connect(
                             select
                             label="Native select"
                             className={classes.textField}
-                            value={values.currency}
+                            value={props.values.currency}
                             onChange={handleChange('currency')}
                             SelectProps={{
                                 native: true,

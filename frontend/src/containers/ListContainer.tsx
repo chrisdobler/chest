@@ -8,13 +8,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
 
 import Quickview from './QuickviewContainer';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as inventoryActions from '../actions/inventory';
+
+import * as Types from '../types/item';
 
 const styles = (theme: Theme) => ({
     root: {
@@ -34,81 +35,25 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators(inventoryActions, dispatch),
     };
 }
-
-const items = [
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-    {
-        primary: 'Photos',
-        secondary: 'Jan 9, 2014',
-        image: '/static/images/avatar/1.jpg',
-    },
-].map((i, id) => ({ ...i, id }));
-
-function InventoryList(props: { classes: object }) {
+function InventoryList(props: {
+    classes: object;
+    inventory: Array<Types.Item>;
+}) {
     const { classes } = props;
 
     useEffect(() => {
         // Your code here
-        console.log('loading.ewew', props.inventory);
+        console.log('loading.ewew', props);
     }, []);
 
     return (
         <div>
             <Quickview />
             <List className={classes.root}>
-                {items.map(({ id, image, primary, secondary }) => (
-                    <Link to={`/items/${id}`}>
+                {props.inventory.map(({ id, photos }, i) => (
+                    <Link to={`/items/${id || i}`}>
                         <ListItem>
-                            <Avatar alt="Remy Sharp" src={image} />
+                            <Avatar alt={photos[0].id} src={photos[0].src} />
                             <ListItemText
                                 primary="Photos"
                                 secondary="Jan 9, 2014"
