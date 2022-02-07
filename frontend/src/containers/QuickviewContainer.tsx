@@ -21,99 +21,98 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import homeImage from './house.png';
 
 const currencies = [
-  {
-    value: 'USD',
-    label: '$'
-  },
-  {
-    value: 'EUR',
-    label: '€'
-  },
-  {
-    value: 'BTC',
-    label: '฿'
-  },
-  {
-    value: 'JPY',
-    label: '¥'
-  }
+    {
+        value: 'USD',
+        label: '$',
+    },
+    {
+        value: 'EUR',
+        label: '€',
+    },
+    {
+        value: 'BTC',
+        label: '฿',
+    },
+    {
+        value: 'JPY',
+        label: '¥',
+    },
 ];
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: 'flex',
-      // flexWrap: 'wrap',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    additionalDetailsContainer: {
-      flexDirection: 'column'
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1)
-    },
-    margin: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1)
-    },
-    dense: {
-      marginTop: theme.spacing(2)
-    },
-    menu: {
-      width: 200
-    },
-    textPanel: {
-      fontSize: '20px',
-      marginRight: '51px'
-    }
-  })
+    createStyles({
+        container: {
+            display: 'flex',
+            // flexWrap: 'wrap',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        additionalDetailsContainer: {
+            flexDirection: 'column',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        },
+        margin: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+        },
+        dense: {
+            marginTop: theme.spacing(2),
+        },
+        menu: {
+            width: 200,
+        },
+        textPanel: {
+            fontSize: '20px',
+            marginRight: '51px',
+        },
+    })
 );
 
 interface State {
-  name: string;
-  age: string;
-  multiline: string;
-  currency: string;
+    name: string;
+    age: string;
+    multiline: string;
+    currency: string;
 }
 
 function mapStateToProps(state, props) {
-  return {
-    inventory: state.inventory
-  };
+    return {
+        inventory: state.inventory,
+    };
 }
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(inventoryActions, dispatch)
-  };
+    return {
+        actions: bindActionCreators(inventoryActions, dispatch),
+    };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(function OutlinedTextFields() {
-  const classes = useStyles();
-  const [values, setValues] = React.useState<State>({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR'
-  });
+    const classes = useStyles();
+    const [values, setValues] = React.useState<State>({
+        name: 'Cat in the Hat',
+        age: '',
+        multiline: 'Controlled',
+        currency: 'EUR',
+    });
 
-  const handleChange = (name: keyof State) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
+    const handleChange =
+        (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            setValues({ ...values, [name]: event.target.value });
+        };
 
-  return (
-    <div className={classes.container}>
-      <div className={classes.textPanel}>Home</div>
-      <div>
-        <img src={homeImage} />
-      </div>
-    </div>
-  );
+    return (
+        <div className={classes.container}>
+            <div className={classes.textPanel}>Home</div>
+            <div>
+                <img src={homeImage} />
+            </div>
+        </div>
+    );
 });
