@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import * as inventoryActions from '../actions/inventory';
 
 import * as Types from '../types/item';
+import { addItemToInventory } from '../actions/inventory';
 
 const styles = (theme: Theme) => ({
     root: {
@@ -42,7 +43,10 @@ function InventoryList(props: {
     const { classes } = props;
 
     useEffect(() => {
-        // Your code here
+        const item = {
+            photos: [],
+        };
+        props.actions.addItemToInventory(item);
         console.log('loading.ewew', props);
     }, []);
 
@@ -53,7 +57,10 @@ function InventoryList(props: {
                 {props.inventory.map(({ id, photos }, i) => (
                     <Link to={`/items/${id || i}`}>
                         <ListItem>
-                            <Avatar alt={photos[0].id} src={photos[0].src} />
+                            <Avatar
+                                alt={photos?.[0]?.id || i}
+                                src={photos?.[0]?.src}
+                            />
                             <ListItemText
                                 primary="Photos"
                                 secondary="Jan 9, 2014"
