@@ -1,5 +1,5 @@
 module.exports = {
-    extends: 'airbnb',
+    extends: ['airbnb', 'airbnb-typescript'],
     rules: {
         indent: ['error', 4],
         // Indent JSX with 4 spaces
@@ -7,5 +7,15 @@ module.exports = {
 
         // Indent props with 4 spaces
         'react/jsx-indent-props': ['error', 4],
+        'import/extensions': [
+            'error',
+            'ignorePackages',
+            {
+                js: 'never',
+                jsx: 'never',
+                ts: 'never',
+                tsx: 'never',
+            },
+        ],
     },
 };
