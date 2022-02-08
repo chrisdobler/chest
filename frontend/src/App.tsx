@@ -25,7 +25,7 @@ const muiTheme = getMuiTheme({
     },
 });
 
-const App = (
+const App = () => (
     <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <Router>
             <div className="App">

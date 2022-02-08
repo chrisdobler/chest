@@ -1,14 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-
-import ListContainer from './ListContainer';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -18,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import ListContainer from './ListContainer';
 import homeImage from './house.png';
 
 const currencies = [

@@ -13,7 +13,7 @@ import Quickview from './QuickviewContainer';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as inventoryActions from '../actions/inventory';
+import inventoryActions from '../actions/inventory';
 
 import * as Types from '../types/item';
 import { addItemToInventory } from '../actions/inventory';
@@ -57,10 +57,7 @@ function InventoryList(props: {
                 {props.inventory.map(({ id, photos }, i) => (
                     <Link to={`/items/${id || i}`}>
                         <ListItem>
-                            <Avatar
-                                alt={photos?.[0]?.id || i}
-                                src={photos?.[0]?.src}
-                            />
+                            <Avatar src={photos?.[0]?.src} />
                             <ListItemText
                                 primary="Photos"
                                 secondary="Jan 9, 2014"
