@@ -8,9 +8,7 @@ export const addPhotoToItem = (photo: Types.Photo) => {
     };
 };
 
-export const setValues = (value: { key: string; value: string }) => {
-    return {
-        type: 'setValue',
-        value,
-    };
-};
+export const setValues = (value: { key: string; value: string }) => ({
+    type: 'setValue',
+    value,
+});

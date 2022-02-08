@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    Theme,
-    createStyles,
-    makeStyles,
-    withStyles,
-} from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
@@ -36,13 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export default function ImageGridList(props) {
+export default function ImageGridList({ images }: { images: [] }) {
     const classes = useStyles();
 
     return (
         <div className={classes.container}>
             <GridList cellHeight={160} className={classes.gridList} cols={3}>
-                {props.images.map((tile) => (
+                {images.map((tile) => (
                     <GridListTile
                         classes={{ tile: classes.tile, root: classes.root }}
                         key={tile.img}
