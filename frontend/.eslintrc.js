@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ['airbnb', 'airbnb-typescript'],
+    extends: ['eslint:recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
     rules: {
         indent: ['error', 4],
         // Indent JSX with 4 spaces
@@ -17,5 +17,8 @@ module.exports = {
                 tsx: 'never',
             },
         ],
+    },
+    parserOptions: {
+        project: ['./tsconfig.json'],
     },
 };

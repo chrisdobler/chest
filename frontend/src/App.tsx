@@ -10,8 +10,6 @@ import Routes from './routes/index';
 
 import AppBar from './layout/AppBar';
 
-import { cyan500 } from 'material-ui/styles/colors';
-
 const muiTheme = getMuiTheme({
     palette: {
         // textColor: cyan500,
@@ -27,21 +25,19 @@ const muiTheme = getMuiTheme({
     },
 });
 
-const App: React.FC = () => {
-    return (
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
-            <Router>
-                <div className="App">
-                    <header className="App-header">
-                        <AppBar />
-                    </header>
-                    <body className="appBody">
-                        <Routes />
-                    </body>
-                </div>
-            </Router>
-        </MuiThemeProvider>
-    );
-};
+const App: React.FC<{}> = (
+    <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        <Router>
+            <div className="App">
+                <header className="App-header">
+                    <AppBar />
+                </header>
+                <body className="appBody">
+                    <Routes />
+                </body>
+            </div>
+        </Router>
+    </MuiThemeProvider>
+);
 
 export default App;
