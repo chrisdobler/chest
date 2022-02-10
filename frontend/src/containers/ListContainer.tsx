@@ -1,6 +1,5 @@
 /* tslint:disable */
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { withStyles, Theme } from '@material-ui/core/styles';
@@ -9,14 +8,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
-import Quickview from './QuickviewContainer';
-
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import inventoryActions from '../actions/inventory';
 
+import Quickview from './QuickviewContainer';
+import { IState } from '../store';
+
 import * as Types from '../types/item';
-import { addItemToInventory } from '../actions/inventory';
 
 const styles = (theme: Theme) => ({
     root: {
@@ -26,12 +25,12 @@ const styles = (theme: Theme) => ({
     },
 });
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state: IState) {
     return {
         inventory: state.inventory,
     };
 }
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators(inventoryActions, dispatch),
     };
@@ -39,14 +38,15 @@ function mapDispatchToProps(dispatch) {
 function InventoryList(props: {
     classes: object;
     inventory: Array<Types.Item>;
+    actions: typeof inventoryActions;
 }) {
-    const { classes } = props;
+    const { classes, actions, inventory } = props;
 
     useEffect(() => {
         const item = {
             photos: [],
         };
-        props.actions.addItemToInventory(item);
+        actions.addItemToInventory(item);
         console.log('loading.ewew', props);
     }, []);
 
@@ -54,7 +54,7 @@ function InventoryList(props: {
         <div>
             <Quickview />
             <List className={classes.root}>
-                {props.inventory.map(({ id, photos }, i) => (
+                {inventory.map(({ id, photos }, i) => (
                     <Link to={`/items/${id || i}`}>
                         <ListItem>
                             <Avatar src={photos?.[0]?.src} />
@@ -69,10 +69,6 @@ function InventoryList(props: {
         </div>
     );
 }
-
-InventoryList.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default connect(
     mapStateToProps,

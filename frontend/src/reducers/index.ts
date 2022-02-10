@@ -1,7 +1,9 @@
 // src/reducers/index.js
+import { combineReducers } from 'redux';
+
 import inventory from './inventory';
 import editedItem from './editedItem';
-import { combineReducers } from 'redux';
+
 const rootReducer = combineReducers({
     inventory,
     editedItem,

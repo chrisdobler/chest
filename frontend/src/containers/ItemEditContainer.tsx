@@ -8,20 +8,22 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
-import ListContainer from './ListContainer';
-
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-
-import * as inventoryActions from '../actions/inventory';
-import * as itemActions from '../actions/item';
-
-import ImagePicker from '../components/ImagePicker';
-import ImageGrid from '../components/ImageGrid';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import ListContainer from './ListContainer';
+
+import inventoryActions from '../actions/inventory';
+import itemActions from '../actions/item';
+
+import ImagePicker from '../components/ImagePicker';
+import ImageGrid from '../components/ImageGrid';
+
+import { IState } from '../store';
 
 const currencies = [
     {
@@ -71,15 +73,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
-
-interface State {
-    name: string;
-    age: string;
-    multiline: string;
-    currency: string;
+interface PropsType {
+    itemActions: typeof itemActions;
+    // actions: typeof inventoryActions;
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state: IState, props: PropsType) {
     console.log({ state, props });
     return {
         inventory: state.inventory,
@@ -87,23 +86,21 @@ function mapStateToProps(state, props) {
         values: state.editedItem.values || {},
     };
 }
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators(inventoryActions, dispatch),
+        // actions: bindActionCreators(inventoryActions, dispatch),
         itemActions: bindActionCreators(itemActions, dispatch),
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(function OutlinedTextFields(props) {
+const ItemEditContainer = (props: PropsType) => {
     const classes = useStyles();
 
     React.useEffect(() => {}, []);
 
     const handleChange =
-        (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        (name: keyof IState) =>
+        (event: React.ChangeEvent<HTMLInputElement>) => {
             props.itemActions.setValues({
                 ...props.values,
                 [name]: event.target.value,
@@ -374,4 +371,6 @@ export default connect(
             <ListContainer />
         </div>
     );
-});
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemEditContainer);

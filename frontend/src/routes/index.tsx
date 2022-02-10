@@ -1,11 +1,10 @@
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import ListContainer from '../containers/ListContainer';
 import ItemEditContainer from '../containers/ItemEditContainer';
 
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
-
-const Routes = (props) => (
+const Routes = () => (
     <Switch>
         <Route path="/" component={ListContainer}>
             <Route
@@ -28,7 +27,7 @@ const Routes = (props) => (
                 {/* <Route path="*" component={NotFound} /> */}
             </Route>
         </Route>
-        <Redirect to={'/'} />
+        <Redirect to="/" />
     </Switch>
 );
 export default Routes;

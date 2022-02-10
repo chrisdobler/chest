@@ -1,12 +1,18 @@
-export default (
-    state = {
-        photos: [],
-        location: '',
-        tags: [],
-        values: [],
-    },
-    payload
-) => {
+import { Photo } from '../types/item';
+
+interface IState {
+    photos: [];
+    location: '';
+    tags: [];
+    values: [];
+}
+
+interface IPayload {
+    photo: Photo;
+    type: string;
+}
+
+export default (state: IState, payload: IPayload) => {
     switch (payload.type) {
         case 'addPhoto':
             return { ...state, photos: [...state.photos, payload.photo] };

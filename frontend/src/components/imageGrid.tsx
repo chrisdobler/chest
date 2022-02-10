@@ -31,7 +31,18 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export default function ImageGridList({ images }: { images: [] }) {
+export default function ImageGridList({
+    images,
+}: {
+    images: [
+        {
+            img?: string;
+            cols?: number;
+            src: string;
+            title?: string;
+        }
+    ];
+}) {
     const classes = useStyles();
 
     return (

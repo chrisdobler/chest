@@ -1,6 +1,6 @@
-interface Photo {
-    id: string;
-    src: string;
+export interface Photo {
+    id?: string;
+    src: string | ArrayBuffer | null;
 }
 
 interface Container {

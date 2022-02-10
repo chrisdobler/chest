@@ -5,7 +5,7 @@ import {
     Theme,
     createStyles,
 } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,10 +18,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddIcon from '@material-ui/icons/Add';
-import ChestPlus from '../icons/ChestPlus';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import brown from '@material-ui/core/colors/brown';
+
+import ChestPlus from '../icons/ChestPlus';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -138,10 +139,10 @@ export default function PrimarySearchAppBar() {
             keepMounted
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
+            onClose={() => handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={() => handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={() => handleMenuClose}>My account</MenuItem>
         </Menu>
     );
 
@@ -154,9 +155,9 @@ export default function PrimarySearchAppBar() {
             keepMounted
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
+            onClose={() => handleMobileMenuClose}
         >
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={() => handleProfileMenuOpen}>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
@@ -205,7 +206,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            onClick={() => handleProfileMenuOpen}
                             color="inherit"
                         >
                             <AccountCircle />
@@ -214,9 +215,9 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.sectionAll}>
                         <IconButton
                             // containerElement={<Link to="/items/add" />}
-                            component={({ ...props }) => (
-                                <Link to="/items/add" {...props} />
-                            )}
+                            // component={(props) => (
+                            //     <Link to="/items/add" {...props} />
+                            // )}
                             aria-label="Add Item"
                             color="inherit"
                         >
@@ -224,9 +225,9 @@ export default function PrimarySearchAppBar() {
                         </IconButton>
                         <IconButton
                             // containerElement={<Link to="/items" />}
-                            component={({ ...props }) => (
-                                <Link to="/items" {...props} />
-                            )}
+                            // component={(props) => (
+                            //     <Link to="/items" {...props} />
+                            // )}
                             aria-label="Add Chest"
                             color="inherit"
                         >
@@ -240,7 +241,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="show more"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
+                            onClick={() => handleMobileMenuOpen}
                             color="inherit"
                         >
                             <MoreIcon />

@@ -1,7 +1,7 @@
 module.exports = {
     extends: ['eslint:recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
     rules: {
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         // Indent JSX with 4 spaces
         'react/jsx-indent': ['error', 4],
 
@@ -17,6 +17,11 @@ module.exports = {
                 tsx: 'never',
             },
         ],
+        'react/no-unstable-nested-components': [
+            'error',
+            { allowAsProps: true },
+        ],
+        'no-param-reassign': ['error', { props: false }],
     },
     parserOptions: {
         project: ['./tsconfig.json'],

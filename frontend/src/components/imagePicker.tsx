@@ -3,6 +3,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import AddIcon from '@material-ui/icons/Add';
 
+import itemActions from '../actions/item';
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         grow: {
@@ -60,7 +62,7 @@ export default function ImagePicker({
     onUpload,
 }: {
     showHelper: boolean;
-    onUpload: () => {};
+    onUpload: typeof itemActions.addPhotoToItem;
 }) {
     const classes = useStyles();
 
@@ -76,7 +78,7 @@ export default function ImagePicker({
         };
 
         // Read the file into memory as dataurl
-        const blob = document.getElementById('inputPhoto').files[0];
+        const blob = document.getElementById('inputPhoto')?.files?.[0];
         reader.readAsDataURL(blob);
     }
 

@@ -1,35 +1,13 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as inventoryActions from '../actions/inventory';
 
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import inventoryActions from '../actions/inventory';
+import { IState } from '../store';
 
-import ListContainer from './ListContainer';
 import homeImage from './house.png';
-
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -64,19 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface State {
-    name: string;
-    age: string;
-    multiline: string;
-    currency: string;
-}
-
-function mapStateToProps(state, props) {
+function mapStateToProps(state: IState) {
     return {
         inventory: state.inventory,
     };
 }
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators(inventoryActions, dispatch),
     };
@@ -85,25 +56,19 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(function OutlinedTextFields() {
+)(() => {
     const classes = useStyles();
-    const [values, setValues] = React.useState<State>({
-        name: 'Cat in the Hat',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
-    });
 
-    const handleChange =
-        (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-            setValues({ ...values, [name]: event.target.value });
-        };
+    // const handleChange =
+    //     (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    //         setValues({ ...values, [name]: event.target.value });
+    //     };
 
     return (
         <div className={classes.container}>
             <div className={classes.textPanel}>Home</div>
             <div>
-                <img src={homeImage} />
+                <img src={homeImage} alt="location" />
             </div>
         </div>
     );
