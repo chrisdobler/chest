@@ -1,18 +1,18 @@
 import { Photo } from '../types/item';
 
 interface IState {
-    photos: [];
-    location: '';
-    tags: [];
-    values: [];
+    photos?: [];
+    location?: '';
+    tags?: [];
+    values?: [];
 }
 
 interface IPayload {
-    photo: Photo;
+    photo?: Photo;
     type: string;
 }
 
-export default (state: IState, payload: IPayload) => {
+export default (state: IState = {}, payload: IPayload = { type: '' }) => {
     switch (payload.type) {
         case 'addPhoto':
             return { ...state, photos: [...state.photos, payload.photo] };

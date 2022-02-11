@@ -1,7 +1,7 @@
 module.exports = {
     extends: ['eslint:recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
     rules: {
-        indent: ['error', 4, { SwitchCase: 1 }],
+        indent: ['error', 4, { SwitchCase: 1, outerIIFEBody: 'off' }],
         // Indent JSX with 4 spaces
         'react/jsx-indent': ['error', 4],
 
@@ -22,6 +22,12 @@ module.exports = {
             { allowAsProps: true },
         ],
         'no-param-reassign': ['error', { props: false }],
+        'react/function-component-definition': [
+            2,
+            {
+                namedComponents: ['function-declaration', 'arrow-function'],
+            },
+        ],
     },
     parserOptions: {
         project: ['./tsconfig.json'],

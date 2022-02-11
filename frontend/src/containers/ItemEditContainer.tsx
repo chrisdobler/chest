@@ -17,13 +17,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import ListContainer from './ListContainer';
 
-import inventoryActions from '../actions/inventory';
-import itemActions from '../actions/item';
+// import inventoryActions from '../actions/inventory';
+import ItemActions from '../actions/item';
 
 import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
+import { Photo } from '../types/item';
 
 const currencies = [
     {
@@ -71,10 +72,13 @@ const useStyles = makeStyles((theme: Theme) =>
         imageShelf: {
             display: 'flex',
         },
+        heading: {},
     })
 );
 interface PropsType {
-    itemActions: typeof itemActions;
+    itemActions: typeof ItemActions;
+    values: [];
+    images: Array<Photo>;
     // actions: typeof inventoryActions;
 }
 
@@ -89,33 +93,37 @@ function mapStateToProps(state: IState, props: PropsType) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         // actions: bindActionCreators(inventoryActions, dispatch),
-        itemActions: bindActionCreators(itemActions, dispatch),
+        itemActions: bindActionCreators(ItemActions, dispatch),
     };
 }
 
 const ItemEditContainer = (props: PropsType) => {
     const classes = useStyles();
+    const { itemActions, images, values } = props;
 
-    React.useEffect(() => {}, []);
+    const handleChange = (
+        event: React.ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >,
+        name: string
+    ) => {
+        console.log(event.target, name);
+        itemActions.setValues({
+            key: name,
+            value: event.target.value,
+        });
+    };
 
-    const handleChange =
-        (name: keyof IState) =>
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            props.itemActions.setValues({
-                ...props.values,
-                [name]: event.target.value,
-            });
-        };
 
     return (
         <div>
             <form className={classes.container} noValidate autoComplete="off">
                 <div className={classes.imageShelf}>
                     <ImagePicker
-                        onUpload={props.itemActions.addPhotoToItem}
-                        showHelper={props.images.length < 1}
+                        onUpload={itemActions.addPhotoToItem}
+                        showHelper={images.length < 1}
                     />
-                    <ImageGrid images={props.images} />
+                    <ImageGrid images={images} />
                 </div>
 
                 <TextField
@@ -232,8 +240,8 @@ const ItemEditContainer = (props: PropsType) => {
                             label="Multiline"
                             multiline
                             rowsMax="4"
-                            value={props.values.multiline || ''}
-                            onChange={handleChange('multiline')}
+                            // value={values.multiline || ''}
+                            onChange={(e) => handleChange(e, 'multiline')}
                             className={classes.textField}
                             margin="normal"
                             helperText="hello"
@@ -278,8 +286,8 @@ const ItemEditContainer = (props: PropsType) => {
                         <TextField
                             id="outlined-number"
                             label="Number"
-                            value={props.values.age || ''}
-                            onChange={handleChange('age')}
+                            // value={values.age || ''}
+                            onChange={(e) => handleChange(e, 'age')}
                             type="number"
                             className={classes.textField}
                             InputLabelProps={{
@@ -301,8 +309,8 @@ const ItemEditContainer = (props: PropsType) => {
                             select
                             label="Select"
                             className={classes.textField}
-                            value={props.values.currency || ''}
-                            onChange={handleChange('currency')}
+                            // value={values.currency || ''}
+                            onChange={(e) => handleChange(e, 'currency')}
                             SelectProps={{
                                 MenuProps: {
                                     className: classes.menu,
@@ -326,8 +334,8 @@ const ItemEditContainer = (props: PropsType) => {
                             select
                             label="Native select"
                             className={classes.textField}
-                            value={props.values.currency}
-                            onChange={handleChange('currency')}
+                            // value={values.currency}
+                            onChange={(e) => handleChange(e, 'currency')}
                             SelectProps={{
                                 native: true,
                                 MenuProps: {

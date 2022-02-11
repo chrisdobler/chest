@@ -78,8 +78,15 @@ export default function ImagePicker({
         };
 
         // Read the file into memory as dataurl
-        const blob = document.getElementById('inputPhoto')?.files?.[0];
-        reader.readAsDataURL(blob);
+        const file = (document.getElementById('inputPhoto') as HTMLInputElement)
+            .files?.[0];
+
+        file?.arrayBuffer().then((arrayBuffer) => {
+            const blob = new Blob([new Uint8Array(arrayBuffer)], {
+                type: file.type,
+            });
+            reader.readAsDataURL(blob);
+        });
     }
 
     return (

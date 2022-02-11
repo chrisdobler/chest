@@ -1,6 +1,8 @@
 export interface Photo {
     id?: string;
     src: string | ArrayBuffer | null;
+    width?: number; // the number of display columns
+    title?: string;
 }
 
 interface Container {
@@ -11,10 +13,10 @@ interface Container {
 interface Tag {}
 
 export interface Item {
-    id: string;
-    photos: Array<Photo>;
-    location: Container;
+    id?: string;
+    photos?: Array<Photo> | Array<>;
+    location?: Container;
     name?: string;
     tags?: Array<Tag>;
-    values: {};
+    values?: {};
 }
