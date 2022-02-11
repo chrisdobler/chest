@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { withStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -17,13 +17,15 @@ import { IState } from '../store';
 
 import * as Types from '../types/item';
 
-const styles = (theme: Theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-});
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            width: '100%',
+            maxWidth: 360,
+            backgroundColor: theme.palette.background.paper,
+        },
+    })
+);
 
 function mapStateToProps(state: IState) {
     return {
@@ -36,11 +38,11 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 function InventoryList(props: {
-    classes: object;
     inventory: Array<Types.Item>;
     actions: typeof inventoryActions;
 }) {
-    const { classes, actions, inventory } = props;
+    const { actions, inventory } = props;
+    const classes = useStyles();
 
     useEffect(() => {
         const item = {
@@ -70,7 +72,4 @@ function InventoryList(props: {
     );
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(InventoryList));
+export default connect(mapStateToProps, mapDispatchToProps)(InventoryList);
