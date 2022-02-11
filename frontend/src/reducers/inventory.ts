@@ -1,7 +1,15 @@
-export default (state = [], payload = { type: '', item: '' }) => {
+import { Item } from '../types/item';
+
+interface IPayload {
+    type: string;
+    item?: Item;
+}
+
+export default (state: Array<Item> = [], payload: IPayload = { type: '' }) => {
     switch (payload.type) {
         case 'addItem':
-            return [...state, payload.item];
+            if (payload.item) return [...state, payload.item];
+            return state;
         default:
             return state;
     }

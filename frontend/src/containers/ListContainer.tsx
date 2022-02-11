@@ -57,7 +57,7 @@ function InventoryList(props: {
             <Quickview />
             <List className={classes.root}>
                 {inventory.map(({ id, photos }, i) => (
-                    <Link to={`/items/${id || i}`}>
+                    <Link to={`/items/${id || i}`} key={id || i}>
                         <ListItem>
                             <Avatar src={photos?.[0]?.src} />
                             <ListItemText

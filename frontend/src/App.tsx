@@ -32,9 +32,9 @@ const App = () => (
                 <header className="App-header">
                     <AppBar />
                 </header>
-                <body className="appBody">
+                <div className="appBody">
                     <Routes />
-                </body>
+                </div>
             </div>
         </Router>
     </MuiThemeProvider>

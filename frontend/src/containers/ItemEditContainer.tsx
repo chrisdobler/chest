@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 interface PropsType {
     itemActions: typeof ItemActions;
-    values: [];
+    values: Array<String>;
     images: Array<Photo>;
     // actions: typeof inventoryActions;
 }
@@ -309,7 +309,7 @@ const ItemEditContainer = (props: PropsType) => {
                             select
                             label="Select"
                             className={classes.textField}
-                            // value={values.currency || ''}
+                            value={/* values.currency || */ ''}
                             onChange={(e) => handleChange(e, 'currency')}
                             SelectProps={{
                                 MenuProps: {

@@ -1,26 +1,38 @@
 import { Photo } from '../types/item';
 
 interface IState {
-    photos?: [];
+    photos?: Array<Photo>;
     location?: '';
     tags?: [];
-    values?: [];
+    values?: Array<{}>;
 }
 
 interface IPayload {
-    photo?: Photo;
     type: string;
+    value?: string | null;
+    photo?: Photo;
 }
 
-export default (state: IState = {}, payload: IPayload = { type: '' }) => {
+export default (
+    state: IState = {},
+    payload: IPayload = { type: '', value: null }
+) => {
     switch (payload.type) {
         case 'addPhoto':
-            return { ...state, photos: [...state.photos, payload.photo] };
-        case 'getPhotos':
-            return state.photos;
-        case 'setValue':
-            console.log(payload);
-            return { ...state, values: [...state.values, payload.value] };
+            if (payload.photo)
+                return {
+                    ...state,
+                    photos: [...(state.photos || []), payload.photo],
+                };
+            return state;
+        // case 'getPhotos':
+        //     return state.photos;
+        // case 'setValue':
+        //     console.log(payload);
+        //     return {
+        //         ...state,
+        //         values: [...(state.values || []), payload.value],
+        //     };
         default:
             return state;
     }
