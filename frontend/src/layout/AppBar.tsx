@@ -5,7 +5,7 @@ import {
     Theme,
     createStyles,
 } from '@material-ui/core/styles';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -214,10 +214,8 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.sectionAll}>
                         <IconButton
-                            // containerElement={<Link to="/items/add" />}
-                            // component={(props) => (
-                            //     <Link to="/items/add" {...props} />
-                            // )}
+                            component={Link}
+                            to="/items/add"
                             aria-label="Add Item"
                             color="inherit"
                         >
@@ -225,9 +223,8 @@ export default function PrimarySearchAppBar() {
                         </IconButton>
                         <IconButton
                             // containerElement={<Link to="/items" />}
-                            // component={(props) => (
-                            //     <Link to="/items" {...props} />
-                            // )}
+                            component={Link}
+                            to="/items"
                             aria-label="Add Chest"
                             color="inherit"
                         >

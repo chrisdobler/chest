@@ -15,16 +15,14 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import ListContainer from './ListContainer';
-
-// import inventoryActions from '../actions/inventory';
+import inventoryActions from '../actions/inventory';
 import ItemActions from '../actions/item';
 
 import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
-import { Photo } from '../types/item';
+import { Item } from '../types/item';
 
 const currencies = [
     {
@@ -77,29 +75,28 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 interface PropsType {
     itemActions: typeof ItemActions;
-    values: Array<String>;
-    images: Array<Photo>;
-    // actions: typeof inventoryActions;
+    actions: typeof inventoryActions;
+    editedItem: Item;
 }
 
 function mapStateToProps(state: IState, props: PropsType) {
     console.log({ state, props });
     return {
         inventory: state.inventory,
-        images: state.editedItem.photos,
-        values: state.editedItem.values || {},
+        editedItem: state.editedItem,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        // actions: bindActionCreators(inventoryActions, dispatch),
+        actions: bindActionCreators(inventoryActions, dispatch),
         itemActions: bindActionCreators(ItemActions, dispatch),
     };
 }
 
 const ItemEditContainer = (props: PropsType) => {
     const classes = useStyles();
-    const { itemActions, images, values } = props;
+    const { itemActions, actions, editedItem } = props;
+    const { photos: images, values } = editedItem;
 
     const handleChange = (
         event: React.ChangeEvent<
@@ -114,6 +111,13 @@ const ItemEditContainer = (props: PropsType) => {
         });
     };
 
+    const handleSave = () => {
+        console.log({
+            photos: images,
+            values,
+        });
+        actions.addItemToInventory(editedItem);
+    };
 
     return (
         <div>
@@ -138,6 +142,7 @@ const ItemEditContainer = (props: PropsType) => {
                     variant="contained"
                     color="primary"
                     className={classes.margin}
+                    onClick={handleSave}
                 >
                     Done
                 </Button>
@@ -376,7 +381,6 @@ const ItemEditContainer = (props: PropsType) => {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </form>
-            <ListContainer />
         </div>
     );
 };

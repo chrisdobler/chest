@@ -1,11 +1,6 @@
-import { Photo } from '../types/item';
+import { Photo, Item } from '../types/item';
 
-interface IState {
-    photos?: Array<Photo>;
-    location?: '';
-    tags?: [];
-    values?: Array<{}>;
-}
+interface IState extends Item {}
 
 interface IPayload {
     type: string;
