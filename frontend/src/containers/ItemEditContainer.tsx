@@ -9,7 +9,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +23,6 @@ import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
-import { Item } from '../types/item';
 
 const currencies = [
     {
@@ -73,28 +73,28 @@ const useStyles = makeStyles((theme: Theme) =>
         heading: {},
     })
 );
-interface PropsType {
-    itemActions: typeof ItemActions;
-    actions: typeof inventoryActions;
-    editedItem: Item;
-}
 
-function mapStateToProps(state: IState, props: PropsType) {
-    console.log({ state, props });
-    return {
-        inventory: state.inventory,
-        editedItem: state.editedItem,
-    };
-}
-function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-        actions: bindActionCreators(inventoryActions, dispatch),
-        itemActions: bindActionCreators(ItemActions, dispatch),
-    };
-}
+const mapStateToProps = (state: IState) => ({
+    editedItem: state.editedItem,
+});
 
-const ItemEditContainer = (props: PropsType) => {
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    actions: bindActionCreators(inventoryActions, dispatch),
+    itemActions: bindActionCreators(ItemActions, dispatch),
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface OwnProps {}
+
+export type Props = OwnProps & PropsFromRedux;
+
+const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const navigate = useNavigate();
+
     const { itemActions, actions, editedItem } = props;
     const { photos: images, values } = editedItem;
 
@@ -104,7 +104,6 @@ const ItemEditContainer = (props: PropsType) => {
         >,
         name: string
     ) => {
-        console.log(event.target, name);
         itemActions.setValues({
             key: name,
             value: event.target.value,
@@ -112,11 +111,8 @@ const ItemEditContainer = (props: PropsType) => {
     };
 
     const handleSave = () => {
-        console.log({
-            photos: images,
-            values,
-        });
         actions.addItemToInventory(editedItem);
+        navigate('/items');
     };
 
     return (
@@ -385,4 +381,4 @@ const ItemEditContainer = (props: PropsType) => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemEditContainer);
+export default connector(ItemEditContainer);
