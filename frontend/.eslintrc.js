@@ -28,6 +28,8 @@ module.exports = {
                 namedComponents: ['function-declaration', 'arrow-function'],
             },
         ],
+        '@typescript-eslint/no-unused-vars': 'warn',
+        'arrow-body-style': 'warn',
     },
     parserOptions: {
         project: ['./tsconfig.json'],
