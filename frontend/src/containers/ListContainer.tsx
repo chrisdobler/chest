@@ -1,5 +1,5 @@
 /* tslint:disable */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -9,13 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import inventoryActions from '../actions/inventory';
 
 import Quickview from './QuickviewContainer';
 import { IState } from '../store';
-
-import * as Types from '../types/item';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,11 +35,17 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators(inventoryActions, dispatch),
     };
 }
-function InventoryList(props: {
-    inventory: Array<Types.Item>;
-    actions: typeof inventoryActions;
-}) {
-    const { actions, inventory } = props;
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface OwnProps {}
+
+export type Props = OwnProps & PropsFromRedux;
+
+function InventoryList(props: Props) {
+    const { inventory } = props;
     const classes = useStyles();
 
     return (
@@ -64,4 +68,4 @@ function InventoryList(props: {
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InventoryList);
+export default connector(InventoryList);

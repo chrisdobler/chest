@@ -73,9 +73,7 @@ export default function ImagePicker({
     // event handler for change
     function onInputPhotoChange() {
         const reader = new window.FileReader();
-        reader.onload = function () {
-            onUpload({ src: reader.result });
-        };
+        reader.onload = () => onUpload({ src: reader.result });
 
         // Read the file into memory as dataurl
         const file = (document.getElementById('inputPhoto') as HTMLInputElement)

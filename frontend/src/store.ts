@@ -1,8 +1,9 @@
 import { createStore } from 'redux';
 import rootReducer from './reducers';
+import { Item } from './types/item';
 
 const initialState = {
-    inventory: [],
+    inventory: [] as Array<Item>,
     editedItem: {
         photos: [],
         values: [],
