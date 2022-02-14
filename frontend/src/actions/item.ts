@@ -1,7 +1,6 @@
 import * as Types from '../types/item';
 // src/actions/cart.js
 const addPhotoToItem = (photo: Types.Photo) => {
-    console.log('adding photo to item:', photo);
     return {
         type: 'addPhoto',
         photo,

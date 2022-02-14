@@ -96,7 +96,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const navigate = useNavigate();
 
     const { itemActions, actions, editedItem } = props;
-    const { photos: images, values } = editedItem;
+    const { photos: images } = editedItem;
 
     const handleChange = (
         event: React.ChangeEvent<

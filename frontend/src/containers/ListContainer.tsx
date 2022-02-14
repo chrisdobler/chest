@@ -44,14 +44,6 @@ function InventoryList(props: {
     const { actions, inventory } = props;
     const classes = useStyles();
 
-    useEffect(() => {
-        const item = {
-            photos: [],
-        };
-        actions.addItemToInventory(item);
-        console.log('loading.ewew', props);
-    }, []);
-
     return (
         <div>
             <Quickview />
