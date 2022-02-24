@@ -6,7 +6,7 @@ import ItemEditContainer from '../containers/ItemEditContainer';
 
 const Routelist = () => (
     <Routes>
-        <Route path="/" />
+        <Route path="/" element={<ListContainer />} />
         <Route
             path="items/*"
             element={
