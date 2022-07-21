@@ -23,6 +23,6 @@ be a photo and location minimum.
 # Initial server setup
 
     postgres=# create database chest;
-    postgres=# create user chestUser with password 'mypassword';
+    postgres=# create user chestuser with password 'mypassword';
     postgres=# grant all privileges on database chest to chestUser;
     postgres=# \q

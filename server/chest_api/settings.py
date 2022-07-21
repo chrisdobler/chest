@@ -76,8 +76,8 @@ WSGI_APPLICATION = "chest_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "travelog",
-        "USER": "traveloguser",
+        "NAME": "chest",
+        "USER": "chestuser",
         "PASSWORD": "mypassword",
         "HOST": "localhost",
         "PORT": "54321",
