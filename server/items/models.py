@@ -1,10 +1,11 @@
-from django.db import (
+from django.db.models import (
     Model,
     TextField,
     DateTimeField,
     FloatField,
     ForeignKey,
     ManyToManyField,
+    PROTECT,
 )
 
 # Create your models here.
@@ -28,7 +29,7 @@ class Location(Model):
 class Item(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
-    location = ForeignKey(Location)
+    location = ForeignKey(Location, on_delete=PROTECT)
     name = TextField(blank=True)
     tags = ManyToManyField(Tag, blank=True)
-    owner = ForeignKey(OwnerGroup)
+    owner = ForeignKey(OwnerGroup, on_delete=PROTECT)
