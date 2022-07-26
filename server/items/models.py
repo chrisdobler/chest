@@ -29,7 +29,7 @@ class Location(Model):
 class Item(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
-    location = ForeignKey(Location, on_delete=PROTECT)
+    location = ForeignKey(Location, on_delete=PROTECT, null=True)
     name = TextField(blank=True)
     tags = ManyToManyField(Tag, blank=True)
-    owner = ForeignKey(OwnerGroup, on_delete=PROTECT)
+    owner = ForeignKey(OwnerGroup, on_delete=PROTECT, null=True)
