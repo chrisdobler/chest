@@ -2,44 +2,25 @@ import FetchQL, { FetchQLOptions } from 'fetchql';
 
 interface TypeOptions {
     name: string;
-    args: {
-        key: string;
-    };
-    variables: Array<string>;
+    args: {};
+    variables: Array<string> | string;
 }
 
 export interface GraphQLClassInterface {
-    new (options: object): GraphQLClassInterface;
-    useAuth(): null;
-    addType(name: string, typeArgs: object, variables: string | string[]): null;
+    // new (options: object): GraphQLClassInterface;
+    useAuth(): boolean;
+    addType(name: string, args: object, variables: string | string[]): boolean;
     types: Array<TypeOptions>;
     options: FetchQLOptions;
 }
-
-interface EnumTypeStringInterface {
-    new (value: string): EnumTypeStringInterface;
-    value: string;
-}
-
-export class EnumTypeString<EnumTypeStringInterface> {
-    value: string;
-    constructor(value: String) {
-        const snakeToCamel = (s: String) =>
-            s.replace(/(\-\w)/g, (m) => m[1].toUpperCase());
-        this.value = snakeToCamel(value);
-    }
-
-    get() {
-        return this.value;
-    }
-}
-
-class GraphQLClass<GraphQLClassInterface> {
+class GraphQLClass implements GraphQLClassInterface {
     types: Array<TypeOptions>;
+
     options: FetchQLOptions;
+
     mutations: TypeOptions[];
 
-    constructor(options: { apiUrl?: String; urlTag?: String } = {}) {
+    constructor(options: { apiUrl?: string; urlTag?: string } = {}) {
         this.types = [];
         this.mutations = [];
 
@@ -48,8 +29,6 @@ class GraphQLClass<GraphQLClassInterface> {
             // url: 'http://localhost:8080/graphql/query',
             url: `${options.apiUrl}`, // GraphQL server address
             interceptors: [],
-            onStart(requestQueueLength) {}, // callback of a new request queue
-            onEnd(requestQueueLength) {}, // callback of a request queue finished
             omitEmptyVariables: false, // remove null props(null or '') from the variables
         };
         if (options.urlTag)
@@ -59,7 +38,7 @@ class GraphQLClass<GraphQLClassInterface> {
         this.getExecutionQuery = this.getExecutionQuery.bind(this);
     }
 
-    async useAuth() {
+    useAuth() {
         // const auth = await this.options.firebase.auth();
         // const token = await auth.currentUser.getIdToken(true);
         this.options = {
@@ -67,19 +46,15 @@ class GraphQLClass<GraphQLClassInterface> {
             // headers: {
             //     Authorization: `Bearer ${token}`,
             // },
-            //TODO: handling fetchQL error below
+            // TODO: handling fetchQL error below
             interceptors: [
                 {
-                    response: function (response) {
-                        return response;
-                    },
-                    responseError: function (error) {
-                        console.log('response error:', error);
-                        // return Promise.reject(error);
-                    },
+                    response: (response) => response,
+                    responseError: (error) => error,
                 },
             ],
         };
+        return true;
     }
 
     addMutation(options: TypeOptions) {
@@ -88,9 +63,14 @@ class GraphQLClass<GraphQLClassInterface> {
             (type) => type.name !== options.name
         );
         this.mutations = [...this.mutations, options];
+        return this.mutations;
     }
 
-    addType(name: string, args: TypeOptions['args'], variables: Array<string>) {
+    addType(
+        name: string,
+        args: TypeOptions['args'],
+        variables?: string | string[]
+    ) {
         if (!name || !variables) return false;
         this.types = this.types.filter((type) => type.name !== name);
         this.types = [
@@ -101,6 +81,7 @@ class GraphQLClass<GraphQLClassInterface> {
                 variables,
             },
         ];
+        return true;
     }
 
     typesParse(value: String | {} | null) {
@@ -117,7 +98,7 @@ class GraphQLClass<GraphQLClassInterface> {
         if (value === null) return `null`;
         if (typeof value === 'object') {
             // if (typeof value.get === 'function') return value.get();
-            return JSON.stringify(value).replace(/\"([^(\")"]+)\":/g, '$1:');
+            return JSON.stringify(value).replace(/"([^(")"]+)":/g, '$1:');
         }
 
         return value;
@@ -131,6 +112,7 @@ class GraphQLClass<GraphQLClassInterface> {
             a.href = uri;
             a.setAttribute('target', '_blank');
             a.click();
+            return true;
         } catch (e) {
             return {
                 message: 'Unable to trigger export',
@@ -139,14 +121,16 @@ class GraphQLClass<GraphQLClassInterface> {
         }
     }
 
-    getExecutionQuery(typeOptions: TypeOptions[] = this.types) {
+    getExecutionQuery(typeOptions = this.types) {
         const query = `{${typeOptions.map(({ name, args, variables = '' }) => {
             if (!name) return '';
             let argString = '';
             const argKeys = Object.keys(args);
             if (argKeys.length > 0) {
                 argKeys.forEach((key) => {
-                    const value = this.typesParse(args[key]);
+                    const value = this.typesParse(
+                        args[key as keyof TypeOptions['args']]
+                    );
                     argString = `${argString}${
                         argString.length > 0 ? ', ' : ''
                     }${key}: ${value}`;
@@ -165,7 +149,7 @@ class GraphQLClass<GraphQLClassInterface> {
             )}`;
             const fetch = new FetchQL(this.options);
             const response = await fetch.query({
-                operationName: 'name',
+                operationName: '',
                 query: mutation,
                 variables: {},
                 opts: {
@@ -174,7 +158,7 @@ class GraphQLClass<GraphQLClassInterface> {
             });
             return response;
         } catch (e) {
-            if (e == undefined) {
+            if (e === undefined) {
                 console.error(
                     'fetchQL error: if data in response is "null" or if all properties of data is "null"'
                 );
@@ -191,7 +175,7 @@ class GraphQLClass<GraphQLClassInterface> {
             const query = this.getExecutionQuery();
             const fetch = new FetchQL(this.options);
             response = await fetch.query({
-                operationName: 'name',
+                operationName: '',
                 query,
                 variables: {},
                 opts: {
@@ -200,7 +184,7 @@ class GraphQLClass<GraphQLClassInterface> {
             });
             return response;
         } catch (e: any) {
-            if (e == undefined) {
+            if (e === undefined) {
                 console.error(
                     'fetchQL error: if data in response is "null" or if all properties of data is "null"'
                 );
@@ -211,6 +195,7 @@ class GraphQLClass<GraphQLClassInterface> {
             } else {
                 console.error('graphql error: ', e);
             }
+            return e;
         }
     }
 }

@@ -1,5 +1,5 @@
 /* tslint:disable */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -45,19 +45,24 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
-    const { inventory } = props;
+    const { inventory, actions } = props;
     const classes = useStyles();
+
+    useEffect(() => {
+        console.log({ inventory });
+        if (!inventory) actions.getItems();
+    });
 
     return (
         <div>
             <Quickview />
             <List className={classes.root}>
-                {inventory.map(({ id, photos }, i) => (
+                {inventory?.map(({ id, photos, name }, i) => (
                     <Link to={`/items/${id || i}`} key={id || i}>
                         <ListItem>
                             <Avatar src={photos?.[0]?.src} />
                             <ListItemText
-                                primary="Photos"
+                                primary={name}
                                 secondary="Jan 9, 2014"
                             />
                         </ListItem>

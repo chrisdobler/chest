@@ -5,4 +5,13 @@ const addItemToInventory = (item: Types.Item) => ({
     item,
 });
 
-export default { addItemToInventory };
+const getItems = () => ({
+    type: 'GET_ITEMS',
+});
+
+const getItemsComplete = (items: Array<{}>) => ({
+    type: 'GET_ITEMS_COMPLETE',
+    items,
+});
+
+export default { addItemToInventory, getItems, getItemsComplete };
