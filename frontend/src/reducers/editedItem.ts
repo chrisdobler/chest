@@ -1,16 +1,18 @@
 import { Photo, Item } from '../types/item';
+import actions from '../constants/actions';
 
 interface IState extends Item {}
 
-interface IPayload {
+export interface IPayload {
     type: string;
     value?: string | null;
+    key: string;
     photo?: Photo;
 }
 
 export default (
     state: IState = {},
-    payload: IPayload = { type: '', value: null }
+    payload: IPayload = { type: '', value: null, key: '' }
 ) => {
     switch (payload.type) {
         case 'addPhoto':
@@ -22,12 +24,12 @@ export default (
             return state;
         // case 'getPhotos':
         //     return state.photos;
-        // case 'setValue':
-        //     console.log(payload);
-        //     return {
-        //         ...state,
-        //         values: [...(state.values || []), payload.value],
-        //     };
+        case actions.SET_ITEM_PROPERTY:
+            console.log(payload);
+            return {
+                ...state,
+                [payload.key]: payload.value,
+            };
         default:
             return state;
     }

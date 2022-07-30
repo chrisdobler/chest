@@ -1,4 +1,5 @@
 import { Item } from '../types/item';
+import actions from '../constants/actions';
 
 interface IPayload {
     type: string;
@@ -11,7 +12,7 @@ export default (
     payload: IPayload = { type: '' }
 ) => {
     switch (payload.type) {
-        case 'addItem':
+        case actions.SUBMIT_ITEM_TO_INVENTORY_COMPLETE:
             if (payload.item) return [...(state || []), payload.item];
             return state;
         case 'GET_ITEMS_COMPLETE':

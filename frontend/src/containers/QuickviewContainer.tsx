@@ -61,7 +61,7 @@ export default connect(
 
     // const handleChange =
     //     (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    //         setValues({ ...values, [name]: event.target.value });
+    //         setItemProperty({ ...values, [name]: event.target.value });
     //     };
 
     return (

@@ -104,15 +104,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
         >,
         name: string
     ) => {
-        itemActions.setValues({
+        itemActions.setItemProperty({
             key: name,
             value: event.target.value,
         });
     };
 
     const handleSave = () => {
-        actions.addItemToInventory(editedItem);
-        navigate('/items');
+        actions.submitItemToInventory(editedItem);
+        // navigate('/items');
     };
 
     return (
@@ -156,14 +156,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                         className={classes.additionalDetailsContainer}
                     >
                         <TextField
-                            id="outlined-uncontrolled"
-                            label="Uncontrolled"
-                            defaultValue="foo"
+                            id="name"
+                            label="Item Title"
+                            placeholder="Item Title"
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
+                            onChange={(e) => handleChange(e, 'name')}
                         />
-                        <TextField
+                        {/* <TextField
                             required
                             id="outlined-required"
                             label="Required"
@@ -310,7 +311,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             select
                             label="Select"
                             className={classes.textField}
-                            value={/* values.currency || */ ''}
+                            value={values.currency || ''}
                             onChange={(e) => handleChange(e, 'currency')}
                             SelectProps={{
                                 MenuProps: {
@@ -373,7 +374,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             margin="normal"
                             variant="outlined"
                             inputProps={{ 'aria-label': 'bare' }}
-                        />
+                        /> */}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </form>

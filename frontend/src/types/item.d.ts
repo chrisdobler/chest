@@ -18,5 +18,4 @@ export interface Item {
     location?: Container;
     name?: string;
     tags?: Array<Tag>;
-    values?: {};
 }

@@ -49,7 +49,6 @@ function InventoryList(props: Props) {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log({ inventory });
         if (!inventory) actions.getItems();
     });
 

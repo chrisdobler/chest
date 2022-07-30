@@ -2,7 +2,7 @@ import FetchQL, { FetchQLOptions } from 'fetchql';
 
 interface TypeOptions {
     name: string;
-    args: {};
+    args?: {};
     variables: Array<string> | string;
 }
 
@@ -125,28 +125,37 @@ class GraphQLClass implements GraphQLClassInterface {
         const query = `{${typeOptions.map(({ name, args, variables = '' }) => {
             if (!name) return '';
             let argString = '';
-            const argKeys = Object.keys(args);
-            if (argKeys.length > 0) {
-                argKeys.forEach((key) => {
-                    const value = this.typesParse(
-                        args[key as keyof TypeOptions['args']]
-                    );
-                    argString = `${argString}${
-                        argString.length > 0 ? ', ' : ''
-                    }${key}: ${value}`;
-                });
-                argString = `(${argString})`;
+            if (args) {
+                const argKeys = Object.keys(args);
+                if (argKeys.length > 0) {
+                    argKeys.forEach((key) => {
+                        const value = this.typesParse(
+                            args[key as keyof TypeOptions['args']]
+                        );
+                        argString = `${argString}${
+                            argString.length > 0 ? ', ' : ''
+                        }${key}: ${value}`;
+                    });
+                    argString = `(${argString})`;
+                }
             }
             return `${name}${argString} {${variables}}`;
         })}}`;
         return query;
     }
 
-    async mutate() {
+    async mutate(name: string) {
         try {
-            const mutation = `mutation${this.getExecutionQuery(
-                this.mutations
-            )}`;
+            let args = '';
+            this.mutations.forEach((mutation) => {
+                if (mutation.variables.length > 0) {
+                    args = `${args}${args.length > 0 ? ',' : ''}${
+                        mutation.name
+                    }:"${mutation.variables}"`;
+                }
+            });
+            const mutation = `mutation{${name}(${args}) ${this.getExecutionQuery()}
+            }`;
             const fetch = new FetchQL(this.options);
             const response = await fetch.query({
                 operationName: '',

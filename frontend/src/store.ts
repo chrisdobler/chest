@@ -10,7 +10,6 @@ const initialState = {
     inventory: null as Array<Item> | null,
     editedItem: {
         photos: [],
-        values: [],
     },
 };
 
