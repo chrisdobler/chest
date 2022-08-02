@@ -57,9 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
         },
-        margin: {
+        doneButton: {
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
+            zIndex: 1,
         },
         dense: {
             marginTop: theme.spacing(2),
@@ -71,6 +72,11 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
         },
         heading: {},
+        expansionPanel: {
+            '&:before': {
+                backgroundColor: 'white',
+            },
+        },
     })
 );
 
@@ -100,7 +106,8 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const { photos: images } = editedItem || {};
 
     useEffect(() => {
-        if (itemId && !editedItem) itemActions.getItem(itemId);
+        if (itemId && (editedItem?.id && editedItem.id) !== +itemId)
+            itemActions.getItem(+itemId);
         console.log(editedItem);
     });
 
@@ -118,6 +125,11 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
 
     const handleSave = () => {
         if (editedItem) actions.submitItemToInventory(editedItem);
+        navigate('/items');
+    };
+
+    const handleDelete = () => {
+        if (editedItem && editedItem.id) itemActions.deleteItem(editedItem.id);
         navigate('/items');
     };
 
@@ -143,12 +155,12 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    className={classes.margin}
+                    className={classes.doneButton}
                     onClick={handleSave}
                 >
                     Done
                 </Button>
-                <ExpansionPanel>
+                <ExpansionPanel className={classes.expansionPanel}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -382,6 +394,14 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             variant="outlined"
                             inputProps={{ 'aria-label': 'bare' }}
                         /> */}
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.doneButton}
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </form>

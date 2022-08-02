@@ -33,3 +33,6 @@ class Item(Model):
     name = TextField(blank=True)
     tags = ManyToManyField(Tag, blank=True)
     owner = ForeignKey(OwnerGroup, on_delete=PROTECT, null=True)
+
+    class Meta:
+        ordering = ["-updated_at"]

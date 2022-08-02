@@ -16,6 +16,7 @@
         "@types/redux-logger": "^3.0.9",
         "@typescript-eslint/parser": "^5.11.0",
         "clsx": "^1.1.1",
+        "create-react-app": "^5.0.1",
         "eslint": "^8.8.0",
         "fetchql": "^3.0.0",
         "material-ui": "^0.20.2",

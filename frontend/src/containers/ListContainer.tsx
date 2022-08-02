@@ -22,12 +22,16 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: 360,
             backgroundColor: theme.palette.background.paper,
         },
+        text: {
+            paddingLeft: 10,
+        },
     })
 );
 
 function mapStateToProps(state: IState) {
     return {
         inventory: state.inventory,
+        editedItem: state.editedItem,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -45,7 +49,7 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
-    const { inventory, actions } = props;
+    const { inventory, actions, editedItem } = props;
     const classes = useStyles();
 
     useEffect(() => {
@@ -56,17 +60,25 @@ function InventoryList(props: Props) {
         <div>
             <Quickview />
             <List className={classes.root}>
-                {inventory?.map(({ id, photos, name, updatedAt }, i) => (
-                    <Link to={`/items/${id || i}`} key={id || i}>
-                        <ListItem>
-                            <Avatar src={photos?.[0]?.src} />
-                            <ListItemText
-                                primary={name}
-                                secondary={updatedAt}
-                            />
-                        </ListItem>
-                    </Link>
-                ))}
+                {inventory?.map(({ id, photos, name, updatedAt }, i) => {
+                    const date = new Date((updatedAt || '') as string);
+                    return (
+                        <Link to={`/items/${id || i}`} key={id || i}>
+                            <ListItem
+                                selected={
+                                    !!(editedItem && editedItem.id === id)
+                                }
+                            >
+                                <Avatar src={photos?.[0]?.src} />
+                                <ListItemText
+                                    primary={name}
+                                    className={classes.text}
+                                    secondary={date.toDateString()}
+                                />
+                            </ListItem>
+                        </Link>
+                    );
+                })}
             </List>
         </div>
     );

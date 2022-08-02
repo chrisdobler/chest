@@ -74,7 +74,20 @@ class EditItem(graphene.Mutation):
         return EditItem(item=item)
 
 
+class DeleteItem(graphene.Mutation):
+    item = graphene.Field(ItemType)
+
+    class Arguments:
+        id = graphene.Int()
+
+    def mutate(self, info, id):
+        item = Item.objects.get(id=id)
+        item.delete()
+        return DeleteItem(item=item)
+
+
 class Mutation(graphene.ObjectType):
     create_location = CreateLocation.Field()
     create_item = CreateItem.Field()
     edit_item = EditItem.Field()
+    delete_item = DeleteItem.Field()

@@ -5,7 +5,13 @@ interface IPayload {
     type: string;
     item?: Item;
     items?: Item[];
+    itemId?: number;
 }
+
+const stateMinusItem = (state: Array<Item>, id: number) => {
+    if (!id) return state;
+    return state?.filter((i) => id && i.id !== id) || [];
+};
 
 export default (
     state: Array<Item> | null = null,
@@ -13,18 +19,23 @@ export default (
 ) => {
     switch (payload.type) {
         case actions.SUBMIT_ITEM_TO_INVENTORY_COMPLETE:
-            if (payload?.item?.id)
+            if (payload?.item)
                 return [
-                    ...(state?.filter(
-                        (i) => payload.item && i.id !== payload.item.id
-                    ) || []),
+                    ...stateMinusItem(state || [], payload.item.id || -1),
                     payload.item,
-                ];
+                ].sort(
+                    (a, b) =>
+                        new Date(b.updatedAt as string).getTime() -
+                        new Date(a.updatedAt as string).getTime()
+                );
+
             return state;
         case actions.GET_ITEMS_COMPLETE:
             console.log(payload, state);
             if (payload.items) return [...payload.items];
             return state;
+        case actions.DELETE_ITEM:
+            return stateMinusItem(state || [], payload.itemId || -1);
         default:
             return state;
     }

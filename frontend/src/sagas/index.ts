@@ -72,7 +72,7 @@ function* submitItem(item: Item) {
     yield put(
         inventoryActions.submitItemToInventoryComplete({
             ...item,
-            ...data.editItem.item,
+            ...(item.id ? data.editItem.item : data.createItem.item),
         })
     );
 }
@@ -83,6 +83,26 @@ function* submitItemWatcher() {
             actions.SUBMIT_ITEM_TO_INVENTORY
         );
         yield fork(submitItem, item);
+    }
+}
+
+function* deleteItem(itemId: number) {
+    const graphql = new GraphQLClass({
+        urlTag: 'deleteItem',
+        apiUrl: 'http://localhost:8000/graphql/',
+    });
+    graphql.addType('item', {}, `id`);
+    graphql.addMutation({
+        name: 'id',
+        variables: itemId || -1,
+    });
+    const { data } = yield graphql.mutate('deleteItem');
+}
+
+function* deleteItemWatcher() {
+    while (true) {
+        const { itemId }: { itemId: number } = yield take(actions.DELETE_ITEM);
+        yield fork(deleteItem, itemId);
     }
 }
 
@@ -125,5 +145,6 @@ export default function* rootSaga() {
         fetchItemsWatcher(),
         fork(submitItemWatcher),
         fork(fetchItemSingleWatcher),
+        fork(deleteItemWatcher),
     ]);
 }

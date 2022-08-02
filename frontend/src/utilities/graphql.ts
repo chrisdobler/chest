@@ -3,7 +3,7 @@ import FetchQL, { FetchQLOptions } from 'fetchql';
 interface TypeOptions {
     name: string;
     args?: {};
-    variables: Array<string> | string;
+    variables: Array<string> | string | number;
 }
 
 export interface GraphQLClassInterface {

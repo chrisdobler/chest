@@ -12,8 +12,13 @@ const setItemProperty = (value: { key: string; value: string }) => ({
     ...value,
 });
 
+const deleteItem = (itemId: number) => ({
+    type: actions.DELETE_ITEM,
+    itemId,
+});
+
 // open an item for editing
-const getItem = (itemId: string) => ({
+const getItem = (itemId: number) => ({
     type: actions.GET_ITEM_SINGLE,
     itemId,
 });
@@ -23,4 +28,10 @@ const getItemComplete = (item: Item) => ({
     item,
 });
 
-export default { setItemProperty, addPhotoToItem, getItem, getItemComplete };
+export default {
+    setItemProperty,
+    addPhotoToItem,
+    getItem,
+    getItemComplete,
+    deleteItem,
+};
