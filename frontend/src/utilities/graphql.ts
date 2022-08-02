@@ -148,11 +148,11 @@ class GraphQLClass implements GraphQLClassInterface {
         try {
             let args = '';
             this.mutations.forEach((mutation) => {
-                if (mutation.variables.length > 0) {
-                    args = `${args}${args.length > 0 ? ',' : ''}${
-                        mutation.name
-                    }:"${mutation.variables}"`;
-                }
+                args = `${args}${args.length > 0 ? ',' : ''}${mutation.name}:${
+                    !Number.isInteger(mutation.variables) ? '"' : ''
+                }${mutation.variables}${
+                    !Number.isInteger(mutation.variables) ? '"' : ''
+                }`;
             });
             const mutation = `mutation{${name}(${args}) ${this.getExecutionQuery()}
             }`;

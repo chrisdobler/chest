@@ -13,6 +13,7 @@ const Routelist = () => (
                 <div>
                     <Routes>
                         <Route path="add" element={<ItemEditContainer />} />
+                        <Route path=":itemId" element={<ItemEditContainer />} />
                     </Routes>
                     <ListContainer />
                 </div>

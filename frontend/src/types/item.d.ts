@@ -13,9 +13,11 @@ interface Container {
 interface Tag {}
 
 export interface Item {
-    id?: string;
+    id?: number;
     photos?: Array<Photo> | Array<>;
     location?: Container;
     name?: string;
     tags?: Array<Tag>;
+    updatedAt?: string;
+    createdAt?: string;
 }

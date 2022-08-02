@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -94,9 +94,15 @@ export type Props = OwnProps & PropsFromRedux;
 const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const { itemId } = useParams();
 
     const { itemActions, actions, editedItem } = props;
-    const { photos: images } = editedItem;
+    const { photos: images } = editedItem || {};
+
+    useEffect(() => {
+        if (itemId && !editedItem) itemActions.getItem(itemId);
+        console.log(editedItem);
+    });
 
     const handleChange = (
         event: React.ChangeEvent<
@@ -111,8 +117,8 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     };
 
     const handleSave = () => {
-        actions.submitItemToInventory(editedItem);
-        // navigate('/items');
+        if (editedItem) actions.submitItemToInventory(editedItem);
+        navigate('/items');
     };
 
     return (
@@ -121,9 +127,9 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 <div className={classes.imageShelf}>
                     <ImagePicker
                         onUpload={itemActions.addPhotoToItem}
-                        showHelper={images.length < 1}
+                        showHelper={!images || images.length < 1}
                     />
-                    <ImageGrid images={images} />
+                    <ImageGrid images={images || []} />
                 </div>
 
                 <TextField
@@ -162,6 +168,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             className={classes.textField}
                             margin="normal"
                             variant="outlined"
+                            value={editedItem?.name || ''}
                             onChange={(e) => handleChange(e, 'name')}
                         />
                         {/* <TextField

@@ -8,10 +8,11 @@ export interface IPayload {
     value?: string | null;
     key: string;
     photo?: Photo;
+    item?: Item;
 }
 
 export default (
-    state: IState = {},
+    state: IState | null = {},
     payload: IPayload = { type: '', value: null, key: '' }
 ) => {
     switch (payload.type) {
@@ -19,17 +20,20 @@ export default (
             if (payload.photo)
                 return {
                     ...state,
-                    photos: [...(state.photos || []), payload.photo],
+                    photos: [...(state?.photos || []), payload.photo],
                 };
             return state;
         // case 'getPhotos':
         //     return state.photos;
         case actions.SET_ITEM_PROPERTY:
-            console.log(payload);
             return {
                 ...state,
                 [payload.key]: payload.value,
             };
+        case actions.GET_ITEM_SINGLE_COMPLETE:
+            return payload.item;
+        case actions.SUBMIT_ITEM_TO_INVENTORY_COMPLETE:
+            return null;
         default:
             return state;
     }

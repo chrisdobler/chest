@@ -13,9 +13,15 @@ export default (
 ) => {
     switch (payload.type) {
         case actions.SUBMIT_ITEM_TO_INVENTORY_COMPLETE:
-            if (payload.item) return [...(state || []), payload.item];
+            if (payload?.item?.id)
+                return [
+                    ...(state?.filter(
+                        (i) => payload.item && i.id !== payload.item.id
+                    ) || []),
+                    payload.item,
+                ];
             return state;
-        case 'GET_ITEMS_COMPLETE':
+        case actions.GET_ITEMS_COMPLETE:
             console.log(payload, state);
             if (payload.items) return [...payload.items];
             return state;

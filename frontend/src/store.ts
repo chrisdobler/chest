@@ -8,9 +8,7 @@ import { Item } from './types/item';
 
 const initialState = {
     inventory: null as Array<Item> | null,
-    editedItem: {
-        photos: [],
-    },
+    editedItem: null as unknown as Item | null,
 };
 
 const sagaMiddleware = createSagaMiddleware();
