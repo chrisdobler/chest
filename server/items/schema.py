@@ -1,7 +1,8 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from .models import Location, Item
+from .models import Location, Item, Photo
 from pprint import pprint as pp
+from graphene_file_upload.scalars import Upload
 
 
 class ItemType(DjangoObjectType):
@@ -86,8 +87,23 @@ class DeleteItem(graphene.Mutation):
         return DeleteItem(item=item)
 
 
+class AddPhoto(graphene.Mutation):
+    class Arguments:
+        file = Upload(required=True)
+        itemId = graphene.Int()
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, file, itemId, **kwargs):
+        item = Item.objects.only("id").get(id=itemId)
+        photo = Photo(image=file, item=item)
+        photo.save()
+        return AddPhoto(success=True)
+
+
 class Mutation(graphene.ObjectType):
     create_location = CreateLocation.Field()
     create_item = CreateItem.Field()
     edit_item = EditItem.Field()
     delete_item = DeleteItem.Field()
+    add_photo = AddPhoto.Field()

@@ -6,7 +6,7 @@ import {
     fork,
     take,
 } from 'redux-saga/effects';
-import { GraphQLClassInterface, GraphQLClass } from '../utilities/graphql';
+import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
 import actions from '../constants/actions';
@@ -65,10 +65,6 @@ function* submitItem(item: Item) {
         });
     });
     const { data } = yield graphql.mutate(item.id ? 'editItem' : 'createItem');
-    // yield put({
-    //     type: 'ITEMS_RECEIVED',
-    //     json: data.items || [{ error: data.message }],
-    // });
     yield put(
         inventoryActions.submitItemToInventoryComplete({
             ...item,

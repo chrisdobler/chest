@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.db.models import (
     Model,
     TextField,
@@ -7,6 +8,7 @@ from django.db.models import (
     ManyToManyField,
     PROTECT,
 )
+from django.db import models
 
 # Create your models here.
 
@@ -36,3 +38,19 @@ class Item(Model):
 
     class Meta:
         ordering = ["-updated_at"]
+
+
+class Photo(models.Model):
+    image = models.ImageField(upload_to="images/%Y/%m/%d/")
+    item = models.ForeignKey(
+        "Item",
+        on_delete=models.CASCADE,
+        related_name="photos",
+        related_query_name="photo",
+        blank=False,
+        null=False,
+    )
+    created_at = DateTimeField(auto_now_add=True)
+
+    # def __str__(self):
+    #     return self.id
