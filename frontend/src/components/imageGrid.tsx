@@ -39,9 +39,10 @@ export default function ImageGridList({ images }: { images: Array<Photo> }) {
         <div className={classes.container}>
             <GridList cellHeight={160} className={classes.gridList} cols={3}>
                 {images.map((tile, i) => {
+                    const { REACT_APP_CHEST_API_URL } = process.env;
                     const src: string =
                         typeof tile.src === 'string'
-                            ? tile.src
+                            ? `${REACT_APP_CHEST_API_URL}/public/${tile.src}`
                             : Buffer.from(tile.src as ArrayBuffer).toString();
                     return (
                         <GridListTile

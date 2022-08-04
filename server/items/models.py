@@ -41,7 +41,7 @@ class Item(Model):
 
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to="images/%Y/%m/%d/")
+    src = models.ImageField(upload_to="images/%Y/%m/%d/")
     item = models.ForeignKey(
         "Item",
         on_delete=models.CASCADE,

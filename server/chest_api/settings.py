@@ -17,7 +17,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Base url to serve media files
-MEDIA_URL = "/images/"
+MEDIA_URL = "/public/"
 
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "public/")

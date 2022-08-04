@@ -5,11 +5,22 @@ from pprint import pprint as pp
 from graphene_file_upload.scalars import Upload
 
 
-class ItemType(DjangoObjectType):
+class PhotoType(DjangoObjectType):
     id = graphene.Int(source="pk")
 
     class Meta:
+        model = Photo
+
+
+class ItemType(DjangoObjectType):
+    id = graphene.Int(source="pk")
+    photos = graphene.List(PhotoType)
+
+    class Meta:
         model = Item
+
+    def resolve_photos(self, info):
+        return self.photos.all()
 
 
 class LocationType(DjangoObjectType):
@@ -19,17 +30,17 @@ class LocationType(DjangoObjectType):
 
 class Query(object):
     items = graphene.List(ItemType)
+    item = graphene.Field(ItemType, id=graphene.Int())
+    photo = graphene.List(PhotoType)
+    locations = graphene.List(LocationType)
 
     def resolve_items(self, info, **kwargs):
         return Item.objects.all()
 
-    item = graphene.Field(ItemType, id=graphene.Int())
-
     def resolve_item(self, info, id: int):
         pp(info)
-        return Item.objects.get(id=id)
-
-    locations = graphene.List(LocationType)
+        item = Item.objects.get(id=id)
+        return item
 
     def resolve_locations(self, info, **kwargs):
         return Location.objects.all()
@@ -88,6 +99,8 @@ class DeleteItem(graphene.Mutation):
 
 
 class AddPhoto(graphene.Mutation):
+    item = ItemType
+
     class Arguments:
         file = Upload(required=True)
         itemId = graphene.Int()

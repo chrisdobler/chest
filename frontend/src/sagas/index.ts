@@ -1,11 +1,4 @@
-import {
-    put,
-    takeLatest,
-    all,
-    takeEvery,
-    fork,
-    take,
-} from 'redux-saga/effects';
+import { put, takeLatest, all, fork, take } from 'redux-saga/effects';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
@@ -27,6 +20,10 @@ function* fetchItems() {
         name
         updatedAt
         createdAt
+        photos {
+            id
+            src
+        }
         `
     );
     const { data } = yield graphql.execute();
@@ -121,6 +118,10 @@ function* fetchItemSingle(itemId: string) {
         name
         updatedAt
         createdAt
+        photos {
+            id
+            src
+        }
         `
     );
     const { data } = yield graphql.execute();

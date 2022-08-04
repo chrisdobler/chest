@@ -62,6 +62,7 @@ function InventoryList(props: Props) {
             <List className={classes.root}>
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);
+                    const { REACT_APP_CHEST_API_URL } = process.env;
                     return (
                         <Link to={`/items/${id || i}`} key={id || i}>
                             <ListItem
@@ -69,7 +70,9 @@ function InventoryList(props: Props) {
                                     !!(editedItem && editedItem.id === id)
                                 }
                             >
-                                <Avatar src={photos?.[0]?.src} />
+                                <Avatar
+                                    src={`${REACT_APP_CHEST_API_URL}/public/${photos?.[0]?.src}`}
+                                />
                                 <ListItemText
                                     primary={name}
                                     className={classes.text}
