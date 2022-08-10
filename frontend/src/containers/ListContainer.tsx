@@ -1,6 +1,7 @@
 /* tslint:disable */
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Buffer } from 'buffer';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -63,6 +64,15 @@ function InventoryList(props: Props) {
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);
                     const { REACT_APP_CHEST_API_URL } = process.env;
+
+                    const photoData = photos?.[0]?.src;
+                    let src: string = '';
+
+                    if (photoData)
+                        src = !photoData.startsWith('data')
+                            ? `${REACT_APP_CHEST_API_URL}/public/${photoData}`
+                            : Buffer.from(photoData).toString();
+
                     return (
                         <Link to={`/items/${id || i}`} key={id || i}>
                             <ListItem
@@ -70,9 +80,7 @@ function InventoryList(props: Props) {
                                     !!(editedItem && editedItem.id === id)
                                 }
                             >
-                                <Avatar
-                                    src={`${REACT_APP_CHEST_API_URL}/public/${photos?.[0]?.src}`}
-                                />
+                                <Avatar src={src} />
                                 <ListItemText
                                     primary={name}
                                     className={classes.text}

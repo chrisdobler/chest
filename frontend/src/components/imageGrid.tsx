@@ -1,4 +1,5 @@
 import React from 'react';
+import { Buffer } from 'buffer';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -41,7 +42,8 @@ export default function ImageGridList({ images }: { images: Array<Photo> }) {
                 {images.map((tile, i) => {
                     const { REACT_APP_CHEST_API_URL } = process.env;
                     const src: string =
-                        typeof tile.src === 'string'
+                        typeof tile.src === 'string' &&
+                        !tile.src.startsWith('data')
                             ? `${REACT_APP_CHEST_API_URL}/public/${tile.src}`
                             : Buffer.from(tile.src as ArrayBuffer).toString();
                     return (

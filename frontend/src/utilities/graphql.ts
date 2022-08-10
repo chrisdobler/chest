@@ -1,9 +1,11 @@
 import FetchQL, { FetchQLOptions } from 'fetchql';
+import graphqlFetchOptions from './fileUploaderStub';
 
 interface TypeOptions {
     name: string;
     args?: {};
     variables: Array<string> | string | number;
+    noQuotes?: boolean;
 }
 
 export interface GraphQLClassInterface {
@@ -28,7 +30,15 @@ class GraphQLClass implements GraphQLClassInterface {
             ...options,
             // url: 'http://localhost:8080/graphql/query',
             url: `${options.apiUrl}`, // GraphQL server address
-            interceptors: [],
+            interceptors: [
+                {
+                    request: (url, config) => {
+                        // Modify the url or config here
+                        console.log({ url, config });
+                        return [url, config];
+                    },
+                },
+            ],
             omitEmptyVariables: false, // remove null props(null or '') from the variables
         };
         if (options.urlTag)
@@ -144,20 +154,35 @@ class GraphQLClass implements GraphQLClassInterface {
         return query;
     }
 
-    async mutate(name: string) {
+    async mutate(name: string, files?: string[]) {
         try {
             let args = '';
             this.mutations.forEach((mutation) => {
                 args = `${args}${args.length > 0 ? ',' : ''}${mutation.name}:${
-                    !Number.isInteger(mutation.variables) ? '"' : ''
+                    !Number.isInteger(mutation.variables) && !mutation.noQuotes
+                        ? '"'
+                        : ''
                 }${mutation.variables}${
-                    !Number.isInteger(mutation.variables) ? '"' : ''
+                    !Number.isInteger(mutation.variables) && !mutation.noQuotes
+                        ? '"'
+                        : ''
                 }`;
             });
-            const mutation = `mutation{${name}(${args}) ${this.getExecutionQuery()}
+
+            if (files && files.length > 0) {
+                const mutation = `{"query": "mutation fileMutation($file: Upload!) { ${name}(${args}) ${this.getExecutionQuery()} }", "variables":{"file":null},"operationName":"fileMutation"}`;
+                const res = await fetch(files[0]);
+                const blob = await res.blob();
+                const fetchOptions = graphqlFetchOptions(mutation, [blob]);
+                console.log(fetchOptions);
+                const response = await fetch(this.options.url, fetchOptions);
+                return await response.json();
+            }
+
+            const mutation = `mutation {${name}(${args}) ${this.getExecutionQuery()}
             }`;
-            const fetch = new FetchQL(this.options);
-            const response = await fetch.query({
+            const fetchql = new FetchQL(this.options);
+            const response = await fetchql.query({
                 operationName: '',
                 query: mutation,
                 variables: {},

@@ -38,7 +38,6 @@ class Query(object):
         return Item.objects.all()
 
     def resolve_item(self, info, id: int):
-        pp(info)
         item = Item.objects.get(id=id)
         return item
 
@@ -99,19 +98,19 @@ class DeleteItem(graphene.Mutation):
 
 
 class AddPhoto(graphene.Mutation):
-    item = ItemType
+    success = graphene.Boolean()
+    photo = graphene.Field(PhotoType)
+    item = graphene.Field(ItemType)
 
     class Arguments:
         file = Upload(required=True)
         itemId = graphene.Int()
 
-    success = graphene.Boolean()
-
     def mutate(self, info, file, itemId, **kwargs):
         item = Item.objects.only("id").get(id=itemId)
-        photo = Photo(image=file, item=item)
+        photo = Photo(src=file, item=item)
         photo.save()
-        return AddPhoto(success=True)
+        return AddPhoto(item=item, photo=photo, success=True)
 
 
 class Mutation(graphene.ObjectType):

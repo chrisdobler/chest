@@ -3,8 +3,14 @@ import * as Types from '../types/item';
 import { Item } from '../types/item';
 // src/actions/cart.js
 const addPhotoToItem = (photo: Types.Photo) => ({
-    type: 'addPhoto',
+    type: actions.ADD_PHOTO,
     photo,
+});
+
+const sendPhoto = (photo: Types.Photo, itemId: number) => ({
+    type: actions.SEND_PHOTO,
+    photo,
+    itemId,
 });
 
 const setItemProperty = (value: { key: string; value: string }) => ({
@@ -31,6 +37,7 @@ const getItemComplete = (item: Item) => ({
 export default {
     setItemProperty,
     addPhotoToItem,
+    sendPhoto,
     getItem,
     getItemComplete,
     deleteItem,

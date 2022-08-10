@@ -1,4 +1,4 @@
-import { Item } from '../types/item';
+import { Item, Photo } from '../types/item';
 import actions from '../constants/actions';
 
 interface IPayload {
@@ -6,6 +6,7 @@ interface IPayload {
     item?: Item;
     items?: Item[];
     itemId?: number;
+    photo?: Photo;
 }
 
 const stateMinusItem = (state: Array<Item>, id: number) => {
@@ -30,6 +31,23 @@ export default (
                 );
 
             return state;
+        case actions.SEND_PHOTO_COMPLETE:
+            return state?.map((item) => {
+                if (payload.itemId === item.id) {
+                    let idMarked = false;
+                    item.photos.map((photo: Photo) => {
+                        // naively assume the first photo matches the current photo.
+                        if (payload.photo && payload.photo.id && !idMarked) {
+                            if (!photo.id) {
+                                photo.id = payload.photo.id;
+                                idMarked = true;
+                            }
+                        }
+                        return photo;
+                    });
+                }
+                return item;
+            });
         case actions.GET_ITEMS_COMPLETE:
             console.log(payload, state);
             if (payload.items) return [...payload.items];

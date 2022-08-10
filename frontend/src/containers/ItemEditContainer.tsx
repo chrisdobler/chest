@@ -108,7 +108,6 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         if (itemId && (editedItem?.id && editedItem.id) !== +itemId)
             itemActions.getItem(+itemId);
-        console.log(editedItem);
     });
 
     const handleChange = (

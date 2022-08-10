@@ -16,7 +16,7 @@ export default (
     payload: IPayload = { type: '', value: null, key: '' }
 ) => {
     switch (payload.type) {
-        case 'addPhoto':
+        case actions.ADD_PHOTO:
             if (payload.photo)
                 return {
                     ...state,

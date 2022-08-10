@@ -12,6 +12,12 @@ const submitItemToInventoryComplete = (item: Types.Item) => ({
     item,
 });
 
+const sendPhotosComplete = (photo: Types.Photo, itemId: number) => ({
+    type: actions.SEND_PHOTO_COMPLETE,
+    photo,
+    itemId,
+});
+
 const getItems = () => ({
     type: actions.GET_ITEMS,
 });
@@ -24,6 +30,7 @@ const getItemsComplete = (items: Array<{}>) => ({
 export default {
     submitItemToInventory,
     submitItemToInventoryComplete,
+    sendPhotosComplete,
     getItems,
     getItemsComplete,
 };
