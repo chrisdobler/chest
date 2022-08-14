@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useLayoutEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,7 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { bindActionCreators, Dispatch } from 'redux';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import inventoryActions from '../actions/inventory';
 import ItemActions from '../actions/item';
+import interfaceActions from '../actions/interface';
 
 import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
@@ -45,10 +46,17 @@ const currencies = [
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        root: {
+            position: 'fixed',
+            backgroundColor: 'white',
+            zIndex: 1,
+            width: '100%',
+        },
         container: {
             display: 'flex',
             flexWrap: 'wrap',
             flexDirection: 'column',
+            paddingTop: 66,
         },
         additionalDetailsContainer: {
             flexDirection: 'column',
@@ -100,7 +108,9 @@ export type Props = OwnProps & PropsFromRedux;
 const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const sizeRef = useRef<HTMLDivElement>(null);
     const { itemId } = useParams();
+    const dispatch = useDispatch();
 
     const { itemActions, actions, editedItem } = props;
     const { photos: images } = editedItem || {};
@@ -109,6 +119,13 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
         if (itemId && (editedItem?.id && editedItem.id) !== +itemId)
             itemActions.getItem(+itemId);
     });
+
+    useLayoutEffect(() => {
+        if (sizeRef.current) {
+            const height = sizeRef.current.clientHeight;
+            dispatch(interfaceActions.updateHeightOfEditor(height));
+        }
+    }, [sizeRef.current, sizeRef.current ? sizeRef.current.clientHeight : 0]);
 
     const handleChange = (
         event: React.ChangeEvent<
@@ -124,16 +141,18 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
 
     const handleSave = () => {
         if (editedItem) actions.submitItemToInventory(editedItem);
+        dispatch(interfaceActions.updateHeightOfEditor(0));
         navigate('/items');
     };
 
     const handleDelete = () => {
         if (editedItem && editedItem.id) itemActions.deleteItem(editedItem.id);
+        dispatch(interfaceActions.updateHeightOfEditor(0));
         navigate('/items');
     };
 
     return (
-        <div>
+        <div className={classes.root} ref={sizeRef}>
             <form className={classes.container} noValidate autoComplete="off">
                 <div className={classes.imageShelf}>
                     <ImagePicker
@@ -159,7 +178,22 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 >
                     Done
                 </Button>
-                <ExpansionPanel className={classes.expansionPanel}>
+                <ExpansionPanel
+                    className={classes.expansionPanel}
+                    onChange={() =>
+                        setTimeout(
+                            () =>
+                                dispatch(
+                                    interfaceActions.updateHeightOfEditor(
+                                        sizeRef.current
+                                            ? sizeRef.current.clientHeight
+                                            : 0
+                                    )
+                                ),
+                            250
+                        )
+                    }
+                >
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"

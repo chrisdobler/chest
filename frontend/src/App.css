@@ -16,6 +16,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white; */
+
+    position: fixed;
+    z-index: 2;
+    width: 100%;
 }
 
 a {

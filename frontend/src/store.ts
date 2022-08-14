@@ -2,14 +2,8 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
 
-import rootReducer from './reducers';
+import { rootReducer, initialState } from './reducers';
 import rootSaga from './sagas';
-import { Item } from './types/item';
-
-const initialState = {
-    inventory: null as Array<Item> | null,
-    editedItem: null as unknown as Item | null,
-};
 
 const sagaMiddleware = createSagaMiddleware();
 

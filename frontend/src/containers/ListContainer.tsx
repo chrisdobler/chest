@@ -19,6 +19,10 @@ import { IState } from '../store';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            paddingTop: ({ interfaceVars }: PropsFromRedux) =>
+                interfaceVars.listItemContainerPadding,
+        },
+        listContainer: {
             width: '100%',
             maxWidth: 360,
             backgroundColor: theme.palette.background.paper,
@@ -33,6 +37,7 @@ function mapStateToProps(state: IState) {
     return {
         inventory: state.inventory,
         editedItem: state.editedItem,
+        interfaceVars: state.interfaceVars,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -50,17 +55,17 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
-    const { inventory, actions, editedItem } = props;
-    const classes = useStyles();
+    const { inventory, actions, editedItem, interfaceVars } = props;
+    const classes = useStyles(props);
 
     useEffect(() => {
         if (!inventory) actions.getItems();
     });
 
     return (
-        <div>
+        <div className={classes.root}>
             <Quickview />
-            <List className={classes.root}>
+            <List className={classes.listContainer}>
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);
                     const { REACT_APP_CHEST_API_URL } = process.env;
