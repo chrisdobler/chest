@@ -34,6 +34,10 @@ const getItemComplete = (item: Item) => ({
     item,
 });
 
+const clearEditorFields = () => ({
+    type: actions.CLEAR_EDITOR_FIELDS,
+});
+
 export default {
     setItemProperty,
     addPhotoToItem,
@@ -41,4 +45,5 @@ export default {
     getItem,
     getItemComplete,
     deleteItem,
+    clearEditorFields,
 };

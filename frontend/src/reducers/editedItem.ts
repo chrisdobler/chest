@@ -16,6 +16,8 @@ export default (
     payload: IPayload = { type: '', value: null, key: '' }
 ) => {
     switch (payload.type) {
+        case actions.CLEAR_EDITOR_FIELDS:
+            return null;
         case actions.ADD_PHOTO:
             if (payload.photo)
                 return {

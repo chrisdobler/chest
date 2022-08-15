@@ -5,7 +5,9 @@ import {
     Theme,
     createStyles,
 } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,6 +25,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import brown from '@material-ui/core/colors/brown';
 
 import ChestPlus from '../icons/ChestPlus';
+
+import itemActions from '../actions/item';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -106,6 +110,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function PrimarySearchAppBar() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -119,6 +126,11 @@ export default function PrimarySearchAppBar() {
 
     function handleMobileMenuClose() {
         setMobileMoreAnchorEl(null);
+    }
+
+    function handleAddNewItem() {
+        dispatch(itemActions.clearEditorFields());
+        navigate('/items/add');
     }
 
     function handleMenuClose() {
@@ -214,10 +226,11 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.sectionAll}>
                         <IconButton
-                            component={Link}
-                            to="/items/add"
+                            // component={Link}
+                            // to="/items/add"
                             aria-label="Add Item"
                             color="inherit"
+                            onClick={() => handleAddNewItem()}
                         >
                             <AddIcon />
                         </IconButton>

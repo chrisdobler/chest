@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useLayoutEffect } from 'react';
-import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +9,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -111,14 +110,27 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const sizeRef = useRef<HTMLDivElement>(null);
     const { itemId } = useParams();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const { itemActions, actions, editedItem } = props;
     const { photos: images } = editedItem || {};
 
     useEffect(() => {
-        if (itemId && (editedItem?.id && editedItem.id) !== +itemId)
+        if (itemId && (editedItem?.id && editedItem.id) !== +itemId) {
             itemActions.getItem(+itemId);
-    });
+            // if (sizeRef.current) {
+            //     const height = sizeRef.current.clientHeight;
+            //     dispatch(interfaceActions.updateHeightOfEditor(height));
+            // }
+        }
+    }, [location]);
+    useEffect(() => {
+        return function cleanup() {
+            console.log({ editedItem });
+            dispatch(interfaceActions.updateHeightOfEditor(0));
+            dispatch(itemActions.clearEditorFields());
+        };
+    }, []);
 
     useLayoutEffect(() => {
         if (sizeRef.current) {
@@ -427,14 +439,16 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             variant="outlined"
                             inputProps={{ 'aria-label': 'bare' }}
                         /> */}
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.doneButton}
-                            onClick={handleDelete}
-                        >
-                            Delete
-                        </Button>
+                        {editedItem && editedItem.id && (
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.doneButton}
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </Button>
+                        )}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </form>
