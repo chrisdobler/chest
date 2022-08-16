@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import psycopg  # must be psycopg 3
+
+from pprint import pprint as pp
+
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,8 +87,25 @@ WSGI_APPLICATION = "chest_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+conn_dict = (
+    psycopg.conninfo.conninfo_to_dict(os.environ.get("DATABASE_URL"))
+    if os.environ.get("DATABASE_URL")
+    else None
+)
+
+# pp(conn_dict)
+
 DATABASES = {
     "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": conn_dict["dbname"],
+        "USER": conn_dict["user"],
+        "PASSWORD": conn_dict["password"],
+        "HOST": conn_dict["host"],
+        "PORT": conn_dict["port"],
+    }
+    if conn_dict
+    else {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "chest",
         "USER": "chestuser",
@@ -134,12 +157,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-ALLOWED_HOSTS = ["http://localhost:3000", "*"]
+ALLOWED_HOSTS = [
+    "http://localhost:3000",
+    "http://api.chestapp.io/",
+    "*",
+]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ("http://localhost:3000", "http://localhost")

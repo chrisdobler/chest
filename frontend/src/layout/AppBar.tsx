@@ -169,7 +169,7 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={() => handleMobileMenuClose}
         >
-            <MenuItem onClick={() => handleProfileMenuOpen}>
+            <MenuItem onClick={(e) => handleProfileMenuOpen(e)}>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
@@ -218,7 +218,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
-                            onClick={() => handleProfileMenuOpen}
+                            onClick={(e) => handleProfileMenuOpen(e)}
                             color="inherit"
                         >
                             <AccountCircle />
@@ -251,7 +251,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="show more"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
-                            onClick={() => handleMobileMenuOpen}
+                            onClick={(e) => handleMobileMenuOpen(e)}
                             color="inherit"
                         >
                             <MoreIcon />

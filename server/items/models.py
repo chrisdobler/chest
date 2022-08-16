@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db.models import (
     Model,
     TextField,
