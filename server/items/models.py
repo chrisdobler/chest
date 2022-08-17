@@ -22,9 +22,10 @@ class Tag(Model):
 
 class Location(Model):
     name = TextField(blank=True)
-    lat = FloatField()
-    lon = FloatField()
+    lat = FloatField(null=True)
+    lon = FloatField(null=True)
     tags = ManyToManyField(Tag, blank=True)
+    # location = ForeignKey(Location, )
 
 
 class Item(Model):

@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 import graphene
 from graphene_django.types import DjangoObjectType
 from .models import Location, Item, Photo
@@ -33,6 +34,7 @@ class Query(object):
     item = graphene.Field(ItemType, id=graphene.Int())
     photo = graphene.List(PhotoType)
     locations = graphene.List(LocationType)
+    location = graphene.Field(LocationType, id=graphene.Int())
 
     def resolve_items(self, info, **kwargs):
         return Item.objects.all()
@@ -44,19 +46,58 @@ class Query(object):
     def resolve_locations(self, info, **kwargs):
         return Location.objects.all()
 
+    def resolve_location(self, info, id: int):
+        loc = Location.objects.get(id=id)
+        return loc
+
 
 class CreateLocation(graphene.Mutation):
     location = graphene.Field(LocationType)
 
     class Arguments:
-        lat = graphene.Float()
-        lon = graphene.Float()
+        lat = graphene.Float(required=False, default_value=None)
+        lon = graphene.Float(required=False, default_value=None)
         name = graphene.String()
 
-    def mutate(self, info, lat, lon, name):
+    def mutate(self, info, name, lat=None, lon=None):
         loc = Location(lat=lat, lon=lon, name=name)
         loc.save()
         return CreateLocation(location=loc)
+
+
+class EditLocation(graphene.Mutation):
+    location = graphene.Field(LocationType)
+
+    class Arguments:
+        lat = graphene.Float(required=False, default_value=None)
+        lon = graphene.Float(required=False, default_value=None)
+        name = graphene.String(required=False)
+        id = graphene.Int()
+
+    def mutate(self, info, id, name, lat=None, lon=None):
+        loc = Location.objects.get(id=id)
+
+        if name:
+            loc.name = name
+        if lat:
+            loc.lat = lat
+        if lon:
+            loc.lon = lon
+        loc.save()
+        return EditLocation(location=loc)
+
+
+class DeleteLocation(graphene.Mutation):
+    location = graphene.Field(LocationType)
+    success = graphene.Boolean()
+
+    class Arguments:
+        id = graphene.Int()
+
+    def mutate(self, info, id):
+        loc = Location.objects.get(id=id)
+        loc.delete()
+        return DeleteItem(location=loc, success=True)
 
 
 class CreateItem(graphene.Mutation):
@@ -64,9 +105,10 @@ class CreateItem(graphene.Mutation):
 
     class Arguments:
         name = graphene.String()
+        location = graphene.Int()
 
-    def mutate(self, info, name):
-        item = Item(name=name)
+    def mutate(self, info, name, location):
+        item = Item(name=name, location=Location.objects.get(id=location))
         item.save()
         return CreateItem(item=item)
 
@@ -76,11 +118,15 @@ class EditItem(graphene.Mutation):
 
     class Arguments:
         name = graphene.String()
+        location = graphene.Int()
         id = graphene.Int()
 
-    def mutate(self, info, id, name):
+    def mutate(self, info, id, name, location):
         item = Item.objects.get(id=id)
-        item.name = name
+        if name:
+            item.name = name
+        if location:
+            item.location = Location.objects.get(id=location)
         item.save()
         return EditItem(item=item)
 
@@ -115,6 +161,8 @@ class AddPhoto(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     create_location = CreateLocation.Field()
+    edit_location = EditLocation.Field()
+    delete_location = DeleteLocation.Field()
     create_item = CreateItem.Field()
     edit_item = EditItem.Field()
     delete_item = DeleteItem.Field()
