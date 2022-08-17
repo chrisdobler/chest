@@ -14,10 +14,9 @@ from pathlib import Path
 import os
 import psycopg  # must be psycopg 3
 
-from pprint import pprint as pp
+from dotenv import load_dotenv
 
-# from dotenv import load_dotenv
-# load_dotenv()
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,9 +86,13 @@ WSGI_APPLICATION = "chest_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+dbUrlKey = "DATABASE_URL"
+if os.environ.get("ENVIRONMENT") != "prod":
+    dbUrlKey = dbUrlKey + "_DRAFTS"
+
 conn_dict = (
-    psycopg.conninfo.conninfo_to_dict(os.environ.get("DATABASE_URL"))
-    if os.environ.get("DATABASE_URL")
+    psycopg.conninfo.conninfo_to_dict(os.environ.get(dbUrlKey))
+    if os.environ.get(dbUrlKey)
     else None
 )
 
