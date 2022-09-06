@@ -27,10 +27,21 @@ const getItemsComplete = (items: Array<{}>) => ({
     items,
 });
 
+const getLocations = () => ({
+    type: actions.GET_LOCATIONS,
+});
+
+const getLocationsComplete = (locations: Array<{}>) => ({
+    type: actions.GET_LOCATIONS_COMPLETE,
+    locations,
+});
+
 export default {
     submitItemToInventory,
     submitItemToInventoryComplete,
     sendPhotosComplete,
     getItems,
     getItemsComplete,
+    getLocations,
+    getLocationsComplete,
 };

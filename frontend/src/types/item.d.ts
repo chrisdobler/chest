@@ -3,11 +3,7 @@ export interface Photo {
     src: string | ArrayBuffer | null;
     width?: number; // the number of display columns
     title?: string;
-}
-
-interface Container {
-    id: string;
-    name: string;
+    // new?: boolean; // mark the photo for synchronization with backend.
 }
 
 interface Tag {}
@@ -15,7 +11,7 @@ interface Tag {}
 export interface Item {
     id?: number;
     photos?: Array<Photo> | Array<>;
-    location?: Container;
+    location?: Location;
     name?: string;
     tags?: Array<Tag>;
     updatedAt?: string;

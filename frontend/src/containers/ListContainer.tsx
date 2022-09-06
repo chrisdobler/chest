@@ -38,6 +38,7 @@ function mapStateToProps(state: IState) {
         inventory: state.inventory,
         editedItem: state.editedItem,
         interfaceVars: state.interfaceVars,
+        locations: state.locations,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -55,16 +56,19 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
-    const { inventory, actions, editedItem, interfaceVars } = props;
+    const { inventory, actions, editedItem, interfaceVars, locations } = props;
     const classes = useStyles(props);
 
     useEffect(() => {
-        if (!inventory) actions.getItems();
-    });
+        actions.getLocations();
+        actions.getItems();
+    }, []);
 
     return (
         <div className={classes.root}>
-            <Quickview />
+            {locations?.map(({ name, id }) => (
+                <Quickview name={name} id={id} />
+            ))}
             <List className={classes.listContainer}>
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);

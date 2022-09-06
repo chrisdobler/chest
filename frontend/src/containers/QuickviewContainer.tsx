@@ -8,6 +8,7 @@ import inventoryActions from '../actions/inventory';
 import { IState } from '../store';
 
 import homeImage from './house.png';
+import storageImage from './storage.png';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
             // flexWrap: 'wrap',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-end',
+            marginRight: 30,
         },
         additionalDetailsContainer: {
             flexDirection: 'column',
@@ -53,11 +55,21 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
+// type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface OwnProps {
+    id: string;
+    name: string;
+}
+
+// export type Props = OwnProps & PropsFromRedux;
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(() => {
+)((props: OwnProps) => {
     const classes = useStyles();
+    const { name, id } = props;
 
     // const handleChange =
     //     (name: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,9 +78,12 @@ export default connect(
 
     return (
         <div className={classes.container}>
-            <div className={classes.textPanel}>Home</div>
+            <div className={classes.textPanel}>{name}</div>
             <div>
-                <img src={homeImage} alt="location" />
+                <img
+                    src={name === 'Home' ? homeImage : storageImage}
+                    alt="location"
+                />
             </div>
         </div>
     );
