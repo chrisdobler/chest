@@ -1,9 +1,11 @@
 aniso8601==7.0.0
 asgiref==3.5.2
+backports.zoneinfo==0.2.1
 black==22.6.0
 click==8.1.3
 Django==3.2.14
 django-cors-headers==3.13.0
+django-graphql-jwt==0.3.4
 graphene==2.1.9
 graphene-django==2.15.0
 graphene-file-upload==1.3.0
@@ -18,6 +20,7 @@ platformdirs==2.5.2
 promise==2.3
 psycopg==3.0.16
 psycopg2-binary==2.9.3
+PyJWT==2.4.0
 python-dotenv==0.20.0
 pytz==2022.1
 Rx==1.6.1

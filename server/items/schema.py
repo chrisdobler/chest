@@ -1,5 +1,6 @@
 from xmlrpc.client import Boolean
 import graphene
+import graphql_jwt
 from graphene_django.types import DjangoObjectType
 from .models import Location, Item, Photo
 from pprint import pprint as pp
@@ -160,6 +161,10 @@ class AddPhoto(graphene.Mutation):
 
 
 class Mutation(graphene.ObjectType):
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
+
     create_location = CreateLocation.Field()
     edit_location = EditLocation.Field()
     delete_location = DeleteLocation.Field()
