@@ -66,7 +66,7 @@ function InventoryList(props: Props) {
 
     return (
         <div className={classes.root}>
-            {locations?.map(({ name, id }) => (
+            {locations?.allLocations.map(({ name, id }) => (
                 <Quickview name={name} id={id} />
             ))}
             <List className={classes.listContainer}>
