@@ -4,20 +4,20 @@ import { combineReducers } from 'redux';
 import inventory from './inventory';
 import editedItem from './editedItem';
 import interfaceVars from './interface';
-import locations, { locationsInitialState } from './locations';
+import location, { locationsInitialState } from './location';
 import { Item } from '../types/item';
 
 const initialState = {
     inventory: null as Array<Item> | null,
     editedItem: null as unknown as Item | null,
     interfaceVars: { listItemContainerPadding: 60 },
-    locations: locationsInitialState,
+    location: locationsInitialState,
 };
 
 const rootReducer = combineReducers({
     inventory,
     editedItem,
     interfaceVars,
-    locations,
+    location,
 });
 export { rootReducer, initialState };

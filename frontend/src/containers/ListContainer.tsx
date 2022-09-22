@@ -11,10 +11,10 @@ import Avatar from '@material-ui/core/Avatar';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import inventoryActions from '../actions/inventory';
+import allActions from '../actions';
 
-import Quickview from './QuickviewContainer';
 import { IState } from '../store';
+import LocationListItem from '../components/LocationListItem';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         listContainer: {
             width: '100%',
-            maxWidth: 360,
+            // maxWidth: 360,
             backgroundColor: theme.palette.background.paper,
         },
         text: {
@@ -38,12 +38,13 @@ function mapStateToProps(state: IState) {
         inventory: state.inventory,
         editedItem: state.editedItem,
         interfaceVars: state.interfaceVars,
-        locations: state.locations,
+        locations: state.location.allLocations,
+        selectedLocation: state.location.selectedLocation,
     };
 }
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators(inventoryActions, dispatch),
+        actions: bindActionCreators(allActions, dispatch),
     };
 }
 
@@ -56,7 +57,14 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
-    const { inventory, actions, editedItem, interfaceVars, locations } = props;
+    const {
+        inventory,
+        actions,
+        editedItem,
+        interfaceVars,
+        locations,
+        selectedLocation,
+    } = props;
     const classes = useStyles(props);
 
     useEffect(() => {
@@ -64,12 +72,22 @@ function InventoryList(props: Props) {
         actions.getItems();
     }, []);
 
+    const handleLocationSelect = async (id: number) => {
+        const action = await actions.setLocationById(id);
+        actions.getItems();
+    };
+
     return (
         <div className={classes.root}>
-            {locations?.allLocations.map(({ name, id }) => (
-                <Quickview name={name} id={id} />
-            ))}
             <List className={classes.listContainer}>
+                {locations?.map(({ name, id }) => (
+                    <LocationListItem
+                        name={name}
+                        id={id}
+                        selected={selectedLocation?.id === id}
+                        handleSelect={handleLocationSelect}
+                    />
+                ))}
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);
                     const { REACT_APP_CHEST_API_URL } = process.env;

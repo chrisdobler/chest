@@ -1,3 +1,5 @@
+// This is deprecated, but left here in case its needed in the future.
+
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 

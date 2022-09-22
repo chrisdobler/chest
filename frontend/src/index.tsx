@@ -9,10 +9,8 @@ import Store from './store';
 
 import './index.css';
 
-const StoreInstance = Store();
-
 ReactDOM.render(
-    <Provider store={StoreInstance}>
+    <Provider store={Store}>
         <App />
     </Provider>,
     document.getElementById('root')

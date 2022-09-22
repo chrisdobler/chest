@@ -7,7 +7,7 @@ const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
 
 function* fetchLocations() {
     const graphql = new GraphQLClass({
-        urlTag: 'items',
+        urlTag: 'locations',
         apiUrl,
     });
     // await graphql.useAuth();

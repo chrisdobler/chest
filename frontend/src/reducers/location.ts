@@ -5,7 +5,7 @@ import actions from '../constants/actions';
 export interface IPayload {
     type: string;
     locations?: LocationType[];
-    selectedLocation?: LocationType;
+    locationId?: number;
 }
 
 export const locationsInitialState = {
@@ -18,10 +18,13 @@ export default (
     payload: IPayload = { type: '' }
 ) => {
     switch (payload.type) {
-        case actions.SET_LOCATION:
+        case actions.SET_LOCATION_BY_ID:
             return {
                 ...state,
-                selectedLocation: payload.selectedLocation || null,
+                selectedLocation:
+                    state.allLocations.find(
+                        (loc) => loc.id === payload.locationId
+                    ) || null,
             };
         case actions.GET_LOCATIONS_COMPLETE:
             return { ...state, allLocations: payload.locations || [] };
