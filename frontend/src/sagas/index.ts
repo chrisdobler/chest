@@ -6,6 +6,7 @@ import { Item, Photo } from '../types/item';
 
 import itemsFetches from './items';
 import locationsFetches from './locations';
+import { LocationType } from '../types/location';
 
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
@@ -58,7 +59,12 @@ function* deleteItemWatcher() {
 }
 
 function* fetchItemsWatcher() {
-    yield takeLatest(actions.GET_ITEMS, fetchItems);
+    while (true) {
+        const { location }: { location: LocationType } = yield take(
+            actions.GET_ITEMS
+        );
+        yield fork(fetchItems, location?.id);
+    }
 }
 
 function* fetchLocationsWatcher() {

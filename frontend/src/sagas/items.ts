@@ -58,7 +58,7 @@ function* submitItem(item: Item) {
     );
 }
 
-function* fetchItems() {
+function* fetchItems(locationId?: number) {
     const graphql = new GraphQLClass({
         urlTag: 'items',
         apiUrl,
@@ -67,7 +67,7 @@ function* fetchItems() {
     // const args = { size: 5, date: new EnumTypeString(months) };
     graphql.addType(
         'items',
-        {},
+        { ...(locationId ? { locationId: Number(locationId) } : {}) },
         `
         id
         name

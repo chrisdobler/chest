@@ -1,3 +1,4 @@
+from typing_extensions import Required
 from xmlrpc.client import Boolean
 import graphene
 from graphene_django.types import DjangoObjectType
@@ -30,13 +31,15 @@ class LocationType(DjangoObjectType):
 
 
 class Query(object):
-    items = graphene.List(ItemType)
+    items = graphene.List(ItemType, locationId=graphene.Int())
     item = graphene.Field(ItemType, id=graphene.Int())
     photo = graphene.List(PhotoType)
     locations = graphene.List(LocationType)
     location = graphene.Field(LocationType, id=graphene.Int())
 
-    def resolve_items(self, info, **kwargs):
+    def resolve_items(self, info, locationId: int = None, **kwargs):
+        if locationId:
+            return Item.objects.filter(location_id=locationId)
         return Item.objects.all()
 
     def resolve_item(self, info, id: int):
