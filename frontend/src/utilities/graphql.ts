@@ -34,7 +34,6 @@ class GraphQLClass implements GraphQLClassInterface {
                 {
                     request: (url, config) => {
                         // Modify the url or config here
-                        console.log({ url, config });
                         return [url, config];
                     },
                 },

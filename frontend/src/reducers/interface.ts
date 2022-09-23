@@ -1,15 +1,17 @@
 import { Photo, Item } from '../types/item';
 import actions from '../constants/actions';
 
-interface IState extends Item {}
-
 export interface IPayload {
     type: string;
     height?: number;
 }
 
+export const interfaceInitialState = {
+    listItemContainerPadding: 60,
+};
+
 export default (
-    state: IState | null = {},
+    state: typeof interfaceInitialState = interfaceInitialState,
     payload: IPayload = { type: '' }
 ) => {
     switch (payload.type) {

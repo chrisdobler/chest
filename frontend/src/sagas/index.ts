@@ -1,7 +1,6 @@
 import { put, takeLatest, all, fork, take } from 'redux-saga/effects';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
-import itemActions from '../actions/item';
 import actions from '../constants/actions';
 import { Item, Photo } from '../types/item';
 

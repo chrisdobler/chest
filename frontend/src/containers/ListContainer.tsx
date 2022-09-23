@@ -74,7 +74,6 @@ function InventoryList(props: Props) {
 
     const handleLocationSelect = async (id: number) => {
         const action = await actions.setLocationById(id);
-        actions.getItems();
     };
 
     return (

@@ -33,7 +33,7 @@ export default (
                 [payload.key]: payload.value,
             };
         case actions.GET_ITEM_SINGLE_COMPLETE:
-            return payload.item;
+            return payload.item || null;
         case actions.SUBMIT_ITEM_TO_INVENTORY_COMPLETE:
             return null;
         default:

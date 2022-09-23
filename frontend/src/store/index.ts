@@ -2,8 +2,9 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
 
-import { rootReducer, initialState } from './reducers';
-import rootSaga from './sagas';
+import { rootReducer, initialState } from '../reducers';
+import rootSaga from '../sagas';
+import subscribers from './subscribers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,6 +15,8 @@ const store = createStore(
     initialState,
     applyMiddleware(sagaMiddleware, logger)
 );
+
+subscribers(store);
 
 export default store;
 

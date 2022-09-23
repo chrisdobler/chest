@@ -32,7 +32,7 @@ export default (
 
             return state;
         case actions.SEND_PHOTO_COMPLETE:
-            return state?.map((item) => {
+            return (state || []).map((item) => {
                 if (payload.itemId === item.id) {
                     let idMarked = false;
                     item.photos.map((photo: Photo) => {
