@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import homeImage from './house.png';
@@ -67,6 +68,10 @@ export default function (props: OwnProps) {
                 // className={classes.text}
                 // secondary={date.toDateString()}
             />
+            <Button color="primary" variant="contained">
+                Back
+            </Button>
+            <Button>Edit</Button>
         </ListItem>
     );
 }

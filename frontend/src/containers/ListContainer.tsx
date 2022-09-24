@@ -69,7 +69,7 @@ function InventoryList(props: Props) {
 
     useEffect(() => {
         actions.getLocations();
-        actions.getItems();
+        // actions.getItems();
     }, []);
 
     const handleLocationSelect = async (id: number) => {
@@ -79,7 +79,11 @@ function InventoryList(props: Props) {
     return (
         <div className={classes.root}>
             <List className={classes.listContainer}>
-                {locations?.map(({ name, id }) => (
+                {(
+                    (selectedLocation?.id && [selectedLocation]) ||
+                    locations ||
+                    []
+                ).map(({ name, id }) => (
                     <LocationListItem
                         name={name}
                         id={id}
@@ -87,6 +91,8 @@ function InventoryList(props: Props) {
                         handleSelect={handleLocationSelect}
                     />
                 ))}
+            </List>
+            <List className={classes.listContainer}>
                 {inventory?.map(({ id, photos, name, updatedAt }, i) => {
                     const date = new Date((updatedAt || '') as string);
                     const { REACT_APP_CHEST_API_URL } = process.env;
