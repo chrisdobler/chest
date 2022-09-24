@@ -8,7 +8,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import AppBar from '@material-ui/core/AppBar';
+import { AppBar } from '@mui/material';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -35,10 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         menuButton: {
             marginRight: theme.spacing(2),
-        },
-        appBar: {
-            // color: brown[500],
-            backgroundColor: brown[500],
         },
         title: {
             // display: 'none'
@@ -185,7 +181,7 @@ export default function PrimarySearchAppBar() {
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static" className={classes.appBar}>
+            <AppBar position="static">
                 <Toolbar>
                     <IconButton
                         edge="start"

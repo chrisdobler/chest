@@ -2,31 +2,15 @@ import React from 'react';
 import './App.css';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { ThemeProvider } from '@mui/material/styles';
 
 import Routes from './routes/index';
 
 import AppBar from './layout/AppBar';
-
-const muiTheme = getMuiTheme({
-    palette: {
-        // textColor: cyan500,
-        // primary1Color: cyan500,
-        // primary2Color: cyan500,
-        // accent1Color: cyan500,
-        // pickerHeaderColor: cyan500,
-        // alternateTextColor: cyan500,
-        // contrastText: 'rgba(0,0,0,0.8)'
-    },
-    appBar: {
-        // height: 60
-    },
-});
+import theme from './theme';
 
 const App = () => (
-    <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+    <ThemeProvider theme={theme}>
         <Router>
             <div className="App">
                 <header className="App-header">
@@ -37,7 +21,7 @@ const App = () => (
                 </div>
             </div>
         </Router>
-    </MuiThemeProvider>
+    </ThemeProvider>
 );
 
 export default App;
