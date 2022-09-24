@@ -11,7 +11,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 

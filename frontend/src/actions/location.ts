@@ -1,4 +1,3 @@
-import * as Types from '../types/item';
 import actions from '../constants/actions';
 
 // src/actions/cart.js

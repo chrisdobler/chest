@@ -89,6 +89,8 @@ function InventoryList(props: Props) {
                         id={id}
                         selected={selectedLocation?.id === id}
                         handleSelect={handleLocationSelect}
+                        handleSelectBack={() => actions.setLocationById(-1)}
+                        handleSelectEdit={() => {}}
                     />
                 ))}
             </List>

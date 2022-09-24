@@ -1,8 +1,7 @@
-import { put, takeLatest, all, fork, take } from 'redux-saga/effects';
+import { put, all } from 'redux-saga/effects';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
-import actions from '../constants/actions';
 import { Item, Photo } from '../types/item';
 
 const { REACT_APP_CHEST_API_URL } = process.env;

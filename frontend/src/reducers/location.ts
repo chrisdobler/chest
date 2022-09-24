@@ -17,14 +17,18 @@ export default (
     state: typeof locationsInitialState = locationsInitialState,
     payload: IPayload = { type: '' }
 ) => {
+    const { locationId } = payload;
+    let selectedLocation = null;
     switch (payload.type) {
         case actions.SET_LOCATION_BY_ID:
+            if (locationId && locationId > -1) {
+                selectedLocation =
+                    state.allLocations.find((loc) => loc.id === locationId) ||
+                    null;
+            }
             return {
                 ...state,
-                selectedLocation:
-                    state.allLocations.find(
-                        (loc) => loc.id === payload.locationId
-                    ) || null,
+                selectedLocation,
             };
         case actions.GET_LOCATIONS_COMPLETE:
             return { ...state, allLocations: payload.locations || [] };

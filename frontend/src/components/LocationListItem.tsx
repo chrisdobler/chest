@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import homeImage from './house.png';
@@ -16,20 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             justifyContent: 'flex-end',
             marginRight: 30,
-        },
-        additionalDetailsContainer: {
-            flexDirection: 'column',
-        },
-        textField: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-        margin: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-        dense: {
-            marginTop: theme.spacing(2),
         },
         menu: {
             width: 200,
@@ -46,11 +32,20 @@ interface OwnProps {
     name: string;
     selected: boolean;
     handleSelect: (id: number) => void;
+    handleSelectBack: () => void;
+    handleSelectEdit: () => void;
 }
 
 export default function (props: OwnProps) {
     const classes = useStyles();
-    const { name, id, selected, handleSelect } = props;
+    const {
+        name,
+        id,
+        selected,
+        handleSelect,
+        handleSelectBack,
+        handleSelectEdit,
+    } = props;
 
     return (
         <ListItem selected={selected} onClick={() => handleSelect(id)}>
@@ -63,15 +58,33 @@ export default function (props: OwnProps) {
                     />
                 </div>
             </div>
-            <ListItemText
-                primary={name}
-                // className={classes.text}
-                // secondary={date.toDateString()}
-            />
-            <Button color="primary" variant="contained">
-                Back
-            </Button>
-            <Button>Edit</Button>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <ListItemText
+                    primary={name}
+                    // className={classes.text}
+                    // secondary={date.toDateString()}
+                />
+                <Box sx={{ display: selected ? 'flex' : 'none' }}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        sx={{ marginRight: 1 }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectBack();
+                        }}
+                    >
+                        Back
+                    </Button>
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleSelectEdit}
+                    >
+                        Edit
+                    </Button>
+                </Box>
+            </Box>
         </ListItem>
     );
 }
