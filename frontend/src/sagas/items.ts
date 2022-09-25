@@ -102,6 +102,10 @@ function* fetchItemSingle(itemId: string) {
         name
         updatedAt
         createdAt
+        location {
+            id
+            name
+        }
         photos {
             id
             src

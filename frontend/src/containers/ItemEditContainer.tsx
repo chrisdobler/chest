@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useLayoutEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -11,7 +10,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -21,6 +20,7 @@ import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
+import item from '../actions/item';
 
 const PREFIX = 'ItemEditContainer';
 
@@ -177,10 +177,10 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 <TextField
                     id="location"
                     label="Location"
-                    defaultValue={
-                        selectedLocation && selectedLocation.name
-                            ? selectedLocation.name
-                            : ''
+                    value={
+                        editedItem?.location?.name ||
+                        selectedLocation?.name ||
+                        ''
                     }
                     className={classes.textField}
                     margin="normal"
