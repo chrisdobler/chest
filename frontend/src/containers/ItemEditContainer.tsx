@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useLayoutEffect } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
@@ -15,85 +15,86 @@ import { Button } from '@mui/material';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import inventoryActions from '../actions/inventory';
-import ItemActions from '../actions/item';
-import interfaceActions from '../actions/interface';
+import allActions from '../actions';
 
 import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
 
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
+const PREFIX = 'ItemEditContainer';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            position: 'fixed',
+const classes = {
+    root: `${PREFIX}-root`,
+    container: `${PREFIX}-container`,
+    additionalDetailsContainer: `${PREFIX}-additionalDetailsContainer`,
+    textField: `${PREFIX}-textField`,
+    doneButton: `${PREFIX}-doneButton`,
+    dense: `${PREFIX}-dense`,
+    menu: `${PREFIX}-menu`,
+    imageShelf: `${PREFIX}-imageShelf`,
+    heading: `${PREFIX}-heading`,
+    expansionPanel: `${PREFIX}-expansionPanel`,
+};
+
+const Root = styled('div')(({ theme: Theme }) => ({
+    [`&.${classes.root}`]: {
+        position: 'fixed',
+        backgroundColor: 'white',
+        zIndex: 1,
+        width: '100%',
+    },
+
+    [`& .${classes.container}`]: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        paddingTop: 66,
+    },
+
+    [`& .${classes.additionalDetailsContainer}`]: {
+        flexDirection: 'column',
+    },
+
+    [`& .${classes.textField}`]: {
+        marginLeft: Theme.spacing(1),
+        marginRight: Theme.spacing(1),
+    },
+
+    [`& .${classes.doneButton}`]: {
+        marginLeft: Theme.spacing(1),
+        marginRight: Theme.spacing(1),
+        zIndex: 1,
+    },
+
+    [`& .${classes.dense}`]: {
+        marginTop: Theme.spacing(2),
+    },
+
+    [`& .${classes.menu}`]: {
+        width: 200,
+    },
+
+    [`& .${classes.imageShelf}`]: {
+        display: 'flex',
+    },
+
+    [`& .${classes.heading}`]: {},
+
+    [`& .${classes.expansionPanel}`]: {
+        '&:before': {
             backgroundColor: 'white',
-            zIndex: 1,
-            width: '100%',
         },
-        container: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            flexDirection: 'column',
-            paddingTop: 66,
-        },
-        additionalDetailsContainer: {
-            flexDirection: 'column',
-        },
-        textField: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-        },
-        doneButton: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            zIndex: 1,
-        },
-        dense: {
-            marginTop: theme.spacing(2),
-        },
-        menu: {
-            width: 200,
-        },
-        imageShelf: {
-            display: 'flex',
-        },
-        heading: {},
-        expansionPanel: {
-            '&:before': {
-                backgroundColor: 'white',
-            },
-        },
-    })
-);
+    },
+}));
 
 const mapStateToProps = (state: IState) => ({
     editedItem: state.editedItem,
+    selectedLocation: state.location.selectedLocation,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    actions: bindActionCreators(inventoryActions, dispatch),
-    itemActions: bindActionCreators(ItemActions, dispatch),
+    actions: bindActionCreators(allActions, dispatch),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -105,19 +106,18 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 const ItemEditContainer: React.FC<Props> = (props: Props) => {
-    const classes = useStyles();
     const navigate = useNavigate();
     const sizeRef = useRef<HTMLDivElement>(null);
     const { itemId } = useParams();
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const { itemActions, actions, editedItem } = props;
+    const { actions, editedItem, selectedLocation } = props;
     const { photos: images } = editedItem || {};
 
     useEffect(() => {
         if (itemId && (editedItem?.id && editedItem.id) !== +itemId) {
-            itemActions.getItem(+itemId);
+            actions.getItem(+itemId);
             // if (sizeRef.current) {
             //     const height = sizeRef.current.clientHeight;
             //     dispatch(interfaceActions.updateHeightOfEditor(height));
@@ -127,15 +127,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         return function cleanup() {
             console.log({ editedItem });
-            dispatch(interfaceActions.updateHeightOfEditor(0));
-            dispatch(itemActions.clearEditorFields());
+            dispatch(actions.updateHeightOfEditor(0));
+            dispatch(actions.clearEditorFields());
         };
     }, []);
 
     useLayoutEffect(() => {
         if (sizeRef.current) {
             const height = sizeRef.current.clientHeight;
-            dispatch(interfaceActions.updateHeightOfEditor(height));
+            dispatch(actions.updateHeightOfEditor(height));
         }
     }, [sizeRef.current, sizeRef.current ? sizeRef.current.clientHeight : 0]);
 
@@ -145,7 +145,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
         >,
         name: string
     ) => {
-        itemActions.setItemProperty({
+        actions.setItemProperty({
             key: name,
             value: event.target.value,
         });
@@ -153,22 +153,22 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
 
     const handleSave = () => {
         if (editedItem) actions.submitItemToInventory(editedItem);
-        dispatch(interfaceActions.updateHeightOfEditor(0));
+        dispatch(actions.updateHeightOfEditor(0));
         navigate('/items');
     };
 
     const handleDelete = () => {
-        if (editedItem && editedItem.id) itemActions.deleteItem(editedItem.id);
-        dispatch(interfaceActions.updateHeightOfEditor(0));
+        if (editedItem && editedItem.id) actions.deleteItem(editedItem.id);
+        dispatch(actions.updateHeightOfEditor(0));
         navigate('/items');
     };
 
     return (
-        <div className={classes.root} ref={sizeRef}>
+        <Root className={classes.root} ref={sizeRef}>
             <form className={classes.container} noValidate autoComplete="off">
                 <div className={classes.imageShelf}>
                     <ImagePicker
-                        onUpload={itemActions.addPhotoToItem}
+                        onUpload={actions.addPhotoToItem}
                         showHelper={!images || images.length < 1}
                     />
                     <ImageGrid images={images || []} />
@@ -177,10 +177,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 <TextField
                     id="location"
                     label="Location"
-                    defaultValue=""
+                    defaultValue={
+                        selectedLocation && selectedLocation.name
+                            ? selectedLocation.name
+                            : ''
+                    }
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
+                    disabled
                 />
                 <Button
                     variant="contained"
@@ -196,7 +201,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                         setTimeout(
                             () =>
                                 dispatch(
-                                    interfaceActions.updateHeightOfEditor(
+                                    actions.updateHeightOfEditor(
                                         sizeRef.current
                                             ? sizeRef.current.clientHeight
                                             : 0
@@ -442,7 +447,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                         {editedItem && editedItem.id && (
                             <Button
                                 variant="contained"
-                                color="secondary"
+                                color="error"
                                 className={classes.doneButton}
                                 onClick={handleDelete}
                             >
@@ -452,7 +457,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </form>
-        </div>
+        </Root>
     );
 };
 
