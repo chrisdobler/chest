@@ -6,7 +6,7 @@ import {
     createStyles,
 } from '@material-ui/core/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppBar } from '@mui/material';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,7 +22,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddIcon from '@material-ui/icons/Add';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import brown from '@material-ui/core/colors/brown';
+import { IState } from '../store';
 
 import ChestPlus from '../icons/ChestPlus';
 
@@ -108,6 +108,7 @@ export default function PrimarySearchAppBar() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { selectedLocation } = useSelector((state: IState) => state.location);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -125,8 +126,12 @@ export default function PrimarySearchAppBar() {
     }
 
     function handleAddNewItem() {
-        dispatch(itemActions.clearEditorFields());
-        navigate('/items/add');
+        if (selectedLocation?.id) {
+            dispatch(itemActions.clearEditorFields());
+            navigate('/items/add');
+        } else {
+            navigate('/locations/add');
+        }
     }
 
     function handleMenuClose() {
@@ -224,7 +229,7 @@ export default function PrimarySearchAppBar() {
                         <IconButton
                             // component={Link}
                             // to="/items/add"
-                            aria-label="Add Item"
+                            aria-label="Add Item/Location"
                             color="inherit"
                             onClick={() => handleAddNewItem()}
                         >
@@ -233,7 +238,7 @@ export default function PrimarySearchAppBar() {
                         <IconButton
                             // containerElement={<Link to="/items" />}
                             component={Link}
-                            to="/items"
+                            to="/locations"
                             aria-label="Add Chest"
                             color="inherit"
                         >

@@ -21,11 +21,8 @@ export default (
     let selectedLocation = null;
     switch (payload.type) {
         case actions.SET_LOCATION_BY_ID:
-            if (locationId && locationId > -1) {
-                selectedLocation =
-                    state.allLocations.find((loc) => loc.id === locationId) ||
-                    null;
-            }
+            selectedLocation =
+                state.allLocations.find((loc) => loc.id === locationId) || null;
             return {
                 ...state,
                 selectedLocation,
