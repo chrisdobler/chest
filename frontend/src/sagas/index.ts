@@ -44,10 +44,9 @@ function* sendPhoto(photo: Photo, itemId: number) {
 
 function* submitItemWatcher() {
     while (true) {
-        const { item }: { item: Item } = yield take(
-            actions.SUBMIT_ITEM_TO_INVENTORY
-        );
-        yield fork(submitItem, item);
+        const { item, location }: { item: Item; location: LocationType } =
+            yield take(actions.SUBMIT_ITEM_TO_INVENTORY);
+        yield fork(submitItem, item, location);
     }
 }
 

@@ -1,11 +1,14 @@
-import * as Types from '../types/item';
+import Types from '../types';
 import actions from '../constants/actions';
-import { LocationType } from '../types/location';
 
 // src/actions/cart.js
-const submitItemToInventory = (item: Types.Item) => ({
+const submitItemToInventory = (
+    item: Types.Item,
+    location: Types.LocationType | null
+) => ({
     type: actions.SUBMIT_ITEM_TO_INVENTORY,
     item,
+    location,
 });
 
 const submitItemToInventoryComplete = (item: Types.Item) => ({
@@ -19,7 +22,7 @@ const sendPhotosComplete = (photo: Types.Photo, itemId: number) => ({
     itemId,
 });
 
-const getItems = (location: LocationType | null = null) => {
+const getItems = (location: Types.LocationType | null = null) => {
     return {
         type: actions.GET_ITEMS,
         location,

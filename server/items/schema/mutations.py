@@ -63,10 +63,10 @@ class CreateItem(graphene.Mutation):
 
     class Arguments:
         name = graphene.String()
-        location = graphene.Int()
+        locationId = graphene.Int()
 
-    def mutate(self, info, name, location):
-        item = Item(name=name, location=Location.objects.get(id=location))
+    def mutate(self, info, name, locationId):
+        item = Item(name=name, location=Location.objects.get(id=locationId))
         item.save()
         return CreateItem(item=item)
 
@@ -76,15 +76,15 @@ class EditItem(graphene.Mutation):
 
     class Arguments:
         name = graphene.String()
-        location = graphene.Int()
+        locationId = graphene.Int()
         id = graphene.Int()
 
-    def mutate(self, info, id, name, location):
+    def mutate(self, info, id, name, locationId):
         item = Item.objects.get(id=id)
         if name:
             item.name = name
-        if location:
-            item.location = Location.objects.get(id=location)
+        if locationId:
+            item.location = Location.objects.get(id=locationId)
         item.save()
         return EditItem(item=item)
 

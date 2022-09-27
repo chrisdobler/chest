@@ -3,11 +3,12 @@ import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
 import { Item, Photo } from '../types/item';
+import { LocationType } from '../types/location';
 
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
 
-function* submitItem(item: Item) {
+function* submitItem(item: Item, location: LocationType) {
     const graphql = new GraphQLClass({
         urlTag: 'sendItem',
         apiUrl,
@@ -24,6 +25,7 @@ function* submitItem(item: Item) {
         `
     );
     if (item.id) item.id = +item.id;
+    delete item.location;
     delete item.updatedAt;
     delete item.createdAt;
     const removalList: string[] = ['photos'];
@@ -35,6 +37,14 @@ function* submitItem(item: Item) {
                 variables: item[key as keyof Item],
             });
         });
+
+    // add location
+    if (location)
+        graphql.addMutation({
+            name: 'locationId',
+            variables: Number(location.id),
+        });
+
     const { data } = yield graphql.mutate(item.id ? 'editItem' : 'createItem');
 
     const receivedItem = item.id ? data.editItem.item : data.createItem.item;

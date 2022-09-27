@@ -20,7 +20,6 @@ import ImagePicker from '../components/ImagePicker';
 import ImageGrid from '../components/ImageGrid';
 
 import { IState } from '../store';
-import item from '../actions/item';
 
 const PREFIX = 'ItemEditContainer';
 
@@ -152,7 +151,11 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     };
 
     const handleSave = () => {
-        if (editedItem) actions.submitItemToInventory(editedItem);
+        if (editedItem)
+            actions.submitItemToInventory(
+                editedItem,
+                editedItem?.location || selectedLocation || null
+            );
         dispatch(actions.updateHeightOfEditor(0));
         navigate('/items');
     };
