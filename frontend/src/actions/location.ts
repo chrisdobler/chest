@@ -7,6 +7,11 @@ const setLocationById = (locationId: number) => ({
     locationId,
 });
 
+const setLocationProperty = (value: { key: string; value: string }) => ({
+    type: actions.SET_LOCATION_PROPERTY,
+    ...value,
+});
+
 const submitLocationToInventory = (location: Types.LocationType) => ({
     type: actions.SUBMIT_LOCATION_TO_INVENTORY,
     location,
@@ -27,4 +32,5 @@ export default {
     submitLocationToInventory,
     submitLocationToInventoryComplete,
     deleteLocation,
+    setLocationProperty,
 };

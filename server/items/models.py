@@ -25,6 +25,8 @@ class Location(Model):
     lat = FloatField(null=True)
     lon = FloatField(null=True)
     tags = ManyToManyField(Tag, blank=True)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
     # location = ForeignKey(Location, )
 
 

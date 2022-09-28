@@ -22,10 +22,10 @@ const sendPhotosComplete = (photo: Types.Photo, itemId: number) => ({
     itemId,
 });
 
-const getItems = (location: Types.LocationType | null = null) => {
+const getItems = (locationId: number | null = null) => {
     return {
         type: actions.GET_ITEMS,
-        location,
+        locationId,
     };
 };
 

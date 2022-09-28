@@ -55,7 +55,7 @@ class DeleteLocation(graphene.Mutation):
     def mutate(self, info, id):
         loc = Location.objects.get(id=id)
         loc.delete()
-        return DeleteItem(location=loc, success=True)
+        return DeleteLocation(location=loc, success=True)
 
 
 class CreateItem(graphene.Mutation):

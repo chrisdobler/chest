@@ -12,7 +12,8 @@ const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
 
 const { fetchItems, fetchItemSingle, deleteItem, submitItem } = itemsFetches;
-const { fetchLocations } = locationsFetches;
+const { fetchLocations, submitLocationWatcher, deleteLocationWatcher } =
+    locationsFetches;
 
 function* sendPhoto(photo: Photo, itemId: number) {
     const graphql = new GraphQLClass({
@@ -59,10 +60,10 @@ function* deleteItemWatcher() {
 
 function* fetchItemsWatcher() {
     while (true) {
-        const { location }: { location: LocationType } = yield take(
+        const { locationId }: { locationId: number } = yield take(
             actions.GET_ITEMS
         );
-        yield fork(fetchItems, location?.id);
+        yield fork(fetchItems, locationId);
     }
 }
 
@@ -91,10 +92,13 @@ function* sendPhotoWatcher() {
 export default function* rootSaga() {
     yield all([
         fetchItemsWatcher(),
-        fetchLocationsWatcher(),
         fork(submitItemWatcher),
         fork(fetchItemSingleWatcher),
         fork(deleteItemWatcher),
         fork(sendPhotoWatcher),
+
+        fetchLocationsWatcher(),
+        fork(submitLocationWatcher),
+        fork(deleteLocationWatcher),
     ]);
 }

@@ -6,7 +6,6 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
-import { bindActionCreators, Dispatch } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
@@ -89,7 +88,7 @@ const Root = styled('div')(({ theme: Theme }) => ({
 
 interface OwnProps {}
 
-const ItemEditContainer: React.FC<OwnProps> = (props: OwnProps) => {
+const ItemEditContainer: React.FC<OwnProps> = () => {
     const navigate = useNavigate();
     const sizeRef = useRef<HTMLDivElement>(null);
     const { locationId } = useParams();
@@ -104,7 +103,7 @@ const ItemEditContainer: React.FC<OwnProps> = (props: OwnProps) => {
             locationId &&
             (selectedLocation?.id && selectedLocation.id) !== +locationId
         ) {
-            // actions.getLocation(+locationId);
+            dispatch(actions.setLocationById(+locationId));
         }
     }, [location]);
     useEffect(() => {
@@ -127,24 +126,26 @@ const ItemEditContainer: React.FC<OwnProps> = (props: OwnProps) => {
         >,
         name: string
     ) => {
-        actions.setItemProperty({
-            key: name,
-            value: event.target.value,
-        });
+        dispatch(
+            actions.setLocationProperty({
+                key: name,
+                value: event.target.value,
+            })
+        );
     };
 
     const handleSave = () => {
         if (selectedLocation)
-            actions.submitLocationToInventory(selectedLocation);
+            dispatch(actions.submitLocationToInventory(selectedLocation));
         dispatch(actions.updateHeightOfEditor(0));
         navigate('/items');
     };
 
     const handleDelete = () => {
         if (selectedLocation && selectedLocation.id)
-            actions.deleteLocation(selectedLocation.id);
+            dispatch(actions.deleteLocation(selectedLocation.id));
         dispatch(actions.updateHeightOfEditor(0));
-        navigate('/items');
+        navigate('/locations');
     };
 
     return (
@@ -166,6 +167,7 @@ const ItemEditContainer: React.FC<OwnProps> = (props: OwnProps) => {
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
+                    onChange={(e) => handleChange(e, 'name')}
                 />
                 <Button
                     variant="contained"

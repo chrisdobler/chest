@@ -1,6 +1,6 @@
 /* tslint:disable */
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -57,6 +57,8 @@ interface OwnProps {}
 export type Props = OwnProps & PropsFromRedux;
 
 function InventoryList(props: Props) {
+    const navigate = useNavigate();
+
     const {
         inventory,
         actions,
@@ -76,6 +78,10 @@ function InventoryList(props: Props) {
         const action = await actions.setLocationById(id);
     };
 
+    const handleLocationEdit = () => {
+        if (selectedLocation) navigate(`/locations/${selectedLocation.id}`);
+    };
+
     return (
         <div className={classes.root}>
             <List className={classes.listContainer}>
@@ -85,12 +91,13 @@ function InventoryList(props: Props) {
                     []
                 ).map(({ name, id }) => (
                     <LocationListItem
-                        name={name}
-                        id={id}
+                        key={id}
+                        name={name || ''}
+                        id={id || -1}
                         selected={selectedLocation?.id === id}
                         handleSelect={handleLocationSelect}
                         handleSelectBack={() => actions.setLocationById(-1)}
-                        handleSelectEdit={() => {}}
+                        handleSelectEdit={() => handleLocationEdit()}
                     />
                 ))}
             </List>
