@@ -7,7 +7,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
+import { Chip, Box, Avatar } from '@mui/material';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
@@ -122,12 +122,25 @@ function InventoryList(props: Props) {
                                         !!(editedItem && editedItem.id === id)
                                     }
                                 >
-                                    <Avatar src={src} />
-                                    <ListItemText
-                                        primary={name}
-                                        className={classes.text}
-                                        secondary={date.toDateString()}
-                                    />
+                                    <Avatar src={src} sx={{ marginRight: 1 }} />
+                                    <Box>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                marginBottom: 1,
+                                            }}
+                                        >
+                                            {name}
+                                            <Chip
+                                                size="small"
+                                                label="New"
+                                                color="error"
+                                            />
+                                        </Box>
+                                        {date.toDateString()}
+                                    </Box>
                                 </ListItem>
                             </Link>
                         );

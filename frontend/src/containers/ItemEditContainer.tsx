@@ -13,6 +13,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChipInput from 'material-ui-chip-input';
 
 import allActions from '../actions';
 
@@ -226,6 +227,11 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                     <ExpansionPanelDetails
                         className={classes.additionalDetailsContainer}
                     >
+                        <ChipInput
+                            value={['new']}
+                            onAdd={(chip) => {}}
+                            onDelete={(chip, index) => {}}
+                        />
                         <TextField
                             id="name"
                             label="Item Title"

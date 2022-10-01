@@ -7,7 +7,10 @@ export interface Photo {
     // new?: boolean; // mark the photo for synchronization with backend.
 }
 
-interface Tag {}
+interface Tag {
+    name: string;
+    id?: number;
+}
 
 export interface Item {
     id?: number;
