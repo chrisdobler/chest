@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, Photo
+from .models import Item, Photo, Tag
 
 # Register your models here.
 class ItemAdmin(admin.ModelAdmin):
@@ -15,5 +15,12 @@ class PhotoAdmin(admin.ModelAdmin):
     # ordering = ("created_at", "id")
 
 
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("name", "id")
+    search_fields = ("name", "id")
+    ordering = ("name", "id")
+
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Photo, PhotoAdmin)
+admin.site.register(Tag, TagAdmin)
