@@ -13,7 +13,8 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChipInput from 'material-ui-chip-input';
+
+import AutoCompleteTags from '../components/AutocompleteTags';
 
 import allActions from '../actions';
 
@@ -116,17 +117,12 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     const { photos: images } = editedItem || {};
 
     useEffect(() => {
-        if (itemId && (editedItem?.id && editedItem.id) !== +itemId) {
-            actions.getItem(+itemId);
-            // if (sizeRef.current) {
-            //     const height = sizeRef.current.clientHeight;
-            //     dispatch(interfaceActions.updateHeightOfEditor(height));
-            // }
-        }
+        actions.getItem(
+            (itemId && editedItem?.id !== +itemId && +itemId) || null
+        );
     }, [location]);
     useEffect(() => {
         return function cleanup() {
-            console.log({ editedItem });
             dispatch(actions.updateHeightOfEditor(0));
             dispatch(actions.clearEditorFields());
         };
@@ -165,6 +161,13 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
         if (editedItem && editedItem.id) actions.deleteItem(editedItem.id);
         dispatch(actions.updateHeightOfEditor(0));
         navigate('/items');
+    };
+
+    const handleAddTag = (chip: any) => {
+        console.log(chip);
+    };
+    const handleRemoveTag = (chip: any, index: number) => {
+        console.log(chip, index);
     };
 
     return (
@@ -227,11 +230,12 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                     <ExpansionPanelDetails
                         className={classes.additionalDetailsContainer}
                     >
-                        <ChipInput
-                            value={['new']}
-                            onAdd={(chip) => {}}
-                            onDelete={(chip, index) => {}}
-                        />
+                        {/* <ChipInput
+                            value={editedItem?.tags?.map((tag) => tag.name)}
+                            onAdd={handleAddTag}
+                            onDelete={handleRemoveTag}
+                        /> */}
+                        <AutoCompleteTags />
                         <TextField
                             id="name"
                             label="Item Title"

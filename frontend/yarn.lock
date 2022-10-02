@@ -1641,6 +1641,20 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
+"@mui/base@^5.0.0-alpha.99":
+  version "5.0.0-alpha.99"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.99.tgz#52589c72b6bf69e016e5811292529d60f81537ad"
+  integrity sha512-D04H6O1c0Jv561yI0SVbpa8MpqpW3G43CwJxV2o6ALfI0DMJ45w07dGafmDchb6aCWTRTdggd3rjgmuzyNwPiQ==
+  dependencies:
+    "@babel/runtime" "^7.19.0"
+    "@emotion/is-prop-valid" "^1.2.0"
+    "@mui/types" "^7.2.0"
+    "@mui/utils" "^5.10.6"
+    "@popperjs/core" "^2.11.6"
+    clsx "^1.2.1"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
 "@mui/core-downloads-tracker@^5.10.6":
   version "5.10.6"
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.10.6.tgz#dd17d976a47950e7bde5bcabf52f3253ce6d62a1"
@@ -5266,6 +5280,18 @@ graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.6, graceful-fs@^4.2.9:
   version "4.2.9"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.9.tgz"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
+
+graphql-tag@^2.12.6:
+  version "2.12.6"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
+  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
+  dependencies:
+    tslib "^2.1.0"
+
+graphql@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
+  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
 
 gzip-size@^6.0.0:
   version "6.0.0"
@@ -9561,6 +9587,11 @@ tslib@^2.0.3:
   version "2.3.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+
+tslib@^2.1.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
 tsutils@^3.21.0:
   version "3.21.0"

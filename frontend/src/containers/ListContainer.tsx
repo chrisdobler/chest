@@ -103,48 +103,58 @@ function InventoryList(props: Props) {
             </List>
             <List className={classes.listContainer}>
                 {selectedLocation &&
-                    inventory?.map(({ id, photos, name, updatedAt }, i) => {
-                        const date = new Date((updatedAt || '') as string);
-                        const { REACT_APP_CHEST_API_URL } = process.env;
+                    inventory?.map(
+                        ({ id, photos, name, updatedAt, tags }, i) => {
+                            const date = new Date((updatedAt || '') as string);
+                            const { REACT_APP_CHEST_API_URL } = process.env;
 
-                        const photoData = photos?.[0]?.src;
-                        let src: string = '';
+                            const photoData = photos?.[0]?.src;
+                            let src: string = '';
 
-                        if (photoData)
-                            src = !photoData.startsWith('data')
-                                ? `${REACT_APP_CHEST_API_URL}/public/${photoData}`
-                                : Buffer.from(photoData).toString();
+                            if (photoData)
+                                src = !photoData.startsWith('data')
+                                    ? `${REACT_APP_CHEST_API_URL}/public/${photoData}`
+                                    : Buffer.from(photoData).toString();
 
-                        return (
-                            <Link to={`/items/${id || i}`} key={id || i}>
-                                <ListItem
-                                    selected={
-                                        !!(editedItem && editedItem.id === id)
-                                    }
-                                >
-                                    <Avatar src={src} sx={{ marginRight: 1 }} />
-                                    <Box>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 1,
-                                                marginBottom: 1,
-                                            }}
-                                        >
-                                            {name}
-                                            <Chip
-                                                size="small"
-                                                label="New"
-                                                color="error"
-                                            />
+                            return (
+                                <Link to={`/items/${id || i}`} key={id || i}>
+                                    <ListItem
+                                        selected={
+                                            !!(
+                                                editedItem &&
+                                                editedItem.id === id
+                                            )
+                                        }
+                                    >
+                                        <Avatar
+                                            src={src}
+                                            sx={{ marginRight: 1 }}
+                                        />
+                                        <Box>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 1,
+                                                    marginBottom: 1,
+                                                }}
+                                            >
+                                                {name}
+                                                {tags?.map((tag) => (
+                                                    <Chip
+                                                        size="small"
+                                                        label={tag.name}
+                                                        color="error"
+                                                    />
+                                                ))}
+                                            </Box>
+                                            {date.toDateString()}
                                         </Box>
-                                        {date.toDateString()}
-                                    </Box>
-                                </ListItem>
-                            </Link>
-                        );
-                    })}
+                                    </ListItem>
+                                </Link>
+                            );
+                        }
+                    )}
             </List>
         </div>
     );

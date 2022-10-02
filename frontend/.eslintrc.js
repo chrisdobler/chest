@@ -30,6 +30,7 @@ module.exports = {
         ],
         '@typescript-eslint/no-unused-vars': 'warn',
         'arrow-body-style': 'warn',
+        'react/jsx-props-no-spreading': ['off'],
     },
     parserOptions: {
         project: ['./tsconfig.json'],

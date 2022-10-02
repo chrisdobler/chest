@@ -11,7 +11,12 @@ import { LocationType } from '../types/location';
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
 
-const { fetchItems, fetchItemSingle, deleteItem, submitItem } = itemsFetches;
+const {
+    fetchItemsWatcher,
+    fetchItemSingleWatcher,
+    deleteItemWatcher,
+    submitItemWatcher,
+} = itemsFetches;
 const { fetchLocations, submitLocationWatcher, deleteLocationWatcher } =
     locationsFetches;
 
@@ -43,41 +48,8 @@ function* sendPhoto(photo: Photo, itemId: number) {
     // }
 }
 
-function* submitItemWatcher() {
-    while (true) {
-        const { item, location }: { item: Item; location: LocationType } =
-            yield take(actions.SUBMIT_ITEM_TO_INVENTORY);
-        yield fork(submitItem, item, location);
-    }
-}
-
-function* deleteItemWatcher() {
-    while (true) {
-        const { itemId }: { itemId: number } = yield take(actions.DELETE_ITEM);
-        yield fork(deleteItem, itemId);
-    }
-}
-
-function* fetchItemsWatcher() {
-    while (true) {
-        const { locationId }: { locationId: number } = yield take(
-            actions.GET_ITEMS
-        );
-        yield fork(fetchItems, locationId);
-    }
-}
-
 function* fetchLocationsWatcher() {
     yield takeLatest(actions.GET_LOCATIONS, fetchLocations);
-}
-
-function* fetchItemSingleWatcher() {
-    while (true) {
-        const { itemId }: { itemId: string } = yield take(
-            actions.GET_ITEM_SINGLE
-        );
-        yield fork(fetchItemSingle, itemId);
-    }
 }
 
 function* sendPhotoWatcher() {

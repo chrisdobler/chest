@@ -1,9 +1,12 @@
-import { put, all } from 'redux-saga/effects';
+import { put, all, take, fork } from 'redux-saga/effects';
+import gql from 'graphql-tag';
+import FetchQL, { FetchQLOptions } from 'fetchql';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
 import { Item, Photo } from '../types/item';
 import { LocationType } from '../types/location';
+import actions from '../constants/actions';
 
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
@@ -82,6 +85,10 @@ function* fetchItems(locationId?: number) {
         name
         updatedAt
         createdAt
+        tags {
+            id
+            name
+        }
         photos {
             id
             src
@@ -102,12 +109,13 @@ function* fetchItemSingle(itemId: string) {
         urlTag: 'item',
         apiUrl,
     });
-    // await graphql.useAuth();
-    // const args = { size: 5, date: new EnumTypeString(months) };
-    graphql.addType(
-        `item(id: ${itemId})`,
-        {},
-        `
+    if (itemId) {
+        // await graphql.useAuth();
+        // const args = { size: 5, date: new EnumTypeString(months) };
+        graphql.addType(
+            `item(id: ${itemId})`,
+            {},
+            `
         id
         name
         updatedAt
@@ -116,14 +124,39 @@ function* fetchItemSingle(itemId: string) {
             id
             name
         }
+        tags {
+            id
+            name
+        }
         photos {
             id
             src
         }
         `
-    );
-    const { data } = yield graphql.execute();
-    yield put(itemActions.getItemComplete(data.item));
+        );
+        const { data } = yield graphql.execute();
+
+        yield put(itemActions.getItemComplete(data.item));
+    } else {
+        const query = `
+            {
+                tags {
+                    id
+                    name
+                }
+            }
+        `;
+        const fetch = new FetchQL(graphql.options);
+        const { data } = yield fetch.query({
+            operationName: '',
+            query,
+            variables: {},
+            opts: {
+                omitEmptyVariables: true,
+            },
+        });
+        yield put(itemActions.getItemComplete({ tags: data.tags }));
+    }
 }
 
 function* deleteItem(itemId: number) {
@@ -139,4 +172,42 @@ function* deleteItem(itemId: number) {
     const { data } = yield graphql.mutate('deleteItem');
 }
 
-export default { fetchItems, fetchItemSingle, deleteItem, submitItem };
+function* submitItemWatcher() {
+    while (true) {
+        const { item, location }: { item: Item; location: LocationType } =
+            yield take(actions.SUBMIT_ITEM_TO_INVENTORY);
+        yield fork(submitItem, item, location);
+    }
+}
+
+function* deleteItemWatcher() {
+    while (true) {
+        const { itemId }: { itemId: number } = yield take(actions.DELETE_ITEM);
+        yield fork(deleteItem, itemId);
+    }
+}
+
+function* fetchItemsWatcher() {
+    while (true) {
+        const { locationId }: { locationId: number } = yield take(
+            actions.GET_ITEMS
+        );
+        yield fork(fetchItems, locationId);
+    }
+}
+
+function* fetchItemSingleWatcher() {
+    while (true) {
+        const { itemId }: { itemId: string } = yield take(
+            actions.GET_ITEM_SINGLE
+        );
+        yield fork(fetchItemSingle, itemId);
+    }
+}
+
+export default {
+    fetchItemsWatcher,
+    fetchItemSingleWatcher,
+    deleteItemWatcher,
+    submitItemWatcher,
+};

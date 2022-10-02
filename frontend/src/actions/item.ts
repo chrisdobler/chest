@@ -24,7 +24,7 @@ const deleteItem = (itemId: number) => ({
 });
 
 // open an item for editing
-const getItem = (itemId: number) => ({
+const getItem = (itemId: number | null) => ({
     type: actions.GET_ITEM_SINGLE,
     itemId,
 });
