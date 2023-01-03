@@ -7,4 +7,9 @@ const updateHeightOfEditor = (height: number) => ({
     height,
 });
 
-export default { updateHeightOfEditor };
+const getTagOptionsForString = (searchText: string) => ({
+    type: actions.GET_TAG_OPTIONS_FOR_STRING,
+    searchText,
+});
+
+export default { updateHeightOfEditor, getTagOptionsForString };
