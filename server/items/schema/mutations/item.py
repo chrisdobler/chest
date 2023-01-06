@@ -1,6 +1,6 @@
 from xmlrpc.client import Boolean
 import graphene
-from ...models import Item
+from ...models import Item, Location
 from pprint import pprint as pp
 
 from ..schema import ItemType

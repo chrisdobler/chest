@@ -1,3 +1,7 @@
+const OFF = 0;
+const WARN = 1;
+const ERROR = 2;
+
 module.exports = {
     extends: ['eslint:recommended', 'airbnb', 'airbnb-typescript', 'prettier'],
     rules: {
@@ -30,7 +34,11 @@ module.exports = {
         ],
         '@typescript-eslint/no-unused-vars': 'warn',
         'arrow-body-style': 'warn',
-        'react/jsx-props-no-spreading': ['off'],
+        'react/jsx-props-no-spreading': [OFF],
+
+        // this is added to prevent a false positive in ts 3.7 with optional chaining
+        'no-unused-expressions': OFF,
+        '@typescript-eslint/no-unused-expressions': OFF,
     },
     parserOptions: {
         project: ['./tsconfig.json'],

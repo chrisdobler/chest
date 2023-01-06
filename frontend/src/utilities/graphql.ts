@@ -4,7 +4,7 @@ import graphqlFetchOptions from './fileUploaderStub';
 interface TypeOptions {
     name: string;
     args?: {};
-    variables: Array<string> | string | number;
+    variables: Array<string | number> | string | number;
     noQuotes?: boolean;
 }
 

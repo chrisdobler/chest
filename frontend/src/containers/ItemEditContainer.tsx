@@ -165,19 +165,13 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
         navigate('/items');
     };
 
-    const handleAddTag = (chip: any) => {
-        console.log(chip);
-    };
-    const handleRemoveTag = (chip: any) => {
-        console.log(chip);
-    };
-    const handleCreateTag = (tagName: String) => {
-        console.log(tagName);
+    const handleTagChange = (Tags: Tag[]) => {
+        dispatch(allActions.setItemProperty({ key: 'tags', value: Tags }));
     };
 
     return (
         <Root className={classes.root} ref={sizeRef}>
-            <form className={classes.container} noValidate autoComplete="off">
+            <form className={classes.container} noValidate autoComplete='off'>
                 <div className={classes.imageShelf}>
                     <ImagePicker
                         onUpload={actions.addPhotoToItem}
@@ -187,21 +181,21 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 </div>
 
                 <TextField
-                    id="location"
-                    label="Location"
+                    id='location'
+                    label='Location'
                     value={
                         editedItem?.location?.name ||
                         selectedLocation?.name ||
                         ''
                     }
                     className={classes.textField}
-                    margin="normal"
-                    variant="outlined"
+                    margin='normal'
+                    variant='outlined'
                     disabled
                 />
                 <Button
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     className={classes.doneButton}
                     onClick={handleSave}
                 >
@@ -225,8 +219,8 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 >
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        aria-controls='panel1a-content'
+                        id='panel1a-header'
                     >
                         <Typography className={classes.heading}>
                             Additional Details
@@ -235,35 +229,28 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                     <ExpansionPanelDetails
                         className={classes.additionalDetailsContainer}
                     >
-                        {/* <ChipInput
-                            value={editedItem?.tags?.map((tag) => tag.name)}
-                            onAdd={handleAddTag}
-                            onDelete={handleRemoveTag}
-                        /> */}
                         <AutoCompleteTags
-                            handleCreateTag={handleCreateTag}
                             currentTagOptions={interfaceVars.editorTagOptions}
                             handleTextSearchInput={
                                 actions.getTagOptionsForString
                             }
-                            handleAddTag={handleAddTag}
-                            handleRemoveTag={handleRemoveTag}
+                            handleTagChange={handleTagChange}
                             selectedTags={editedItem?.tags || []}
                         />
                         <TextField
-                            id="name"
-                            label="Item Title"
-                            placeholder="Item Title"
+                            id='name'
+                            label='Item Title'
+                            placeholder='Item Title'
                             className={classes.textField}
-                            margin="normal"
-                            variant="outlined"
+                            margin='normal'
+                            variant='outlined'
                             value={editedItem?.name || ''}
                             onChange={(e) => handleChange(e, 'name')}
                         />
                         {editedItem && editedItem.id && (
                             <Button
-                                variant="contained"
-                                color="error"
+                                variant='contained'
+                                color='error'
                                 className={classes.doneButton}
                                 onClick={handleDelete}
                             >

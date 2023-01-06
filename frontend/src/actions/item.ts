@@ -13,7 +13,10 @@ const sendPhoto = (photo: Types.Photo, itemId: number) => ({
     itemId,
 });
 
-const setItemProperty = (value: { key: string; value: string }) => ({
+const setItemProperty = (value: {
+    key: string;
+    value: string | Types.Tag[];
+}) => ({
     type: actions.SET_ITEM_PROPERTY,
     ...value,
 });

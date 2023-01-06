@@ -135,18 +135,15 @@ const top100Films = [
 
 interface Props {
     currentTagOptions: TagType[] | null;
+    selectedTags: TagType[] | null;
     handleTextSearchInput: (textSearch: string) => void;
-    handleAddTag: (TagId: number) => void;
-    handleRemoveTag: (TagId: number) => void;
-    handleCreateTag: (tagName: String) => void;
-    selectedTags: TagType[];
+    handleTagChange: (tags: TagType[]) => void;
 }
 
 export default function AutoCompleteTags({
     currentTagOptions,
     handleTextSearchInput,
-    handleAddTag,
-    handleRemoveTag,
+    handleTagChange,
     selectedTags,
 }: Props) {
     const currentTagOptions2 = [
@@ -166,8 +163,15 @@ export default function AutoCompleteTags({
                     id='tags-outlined'
                     options={[...currentTagOptions2]}
                     getOptionLabel={(option) => option.name}
-                    defaultValue={[...(currentTagOptions || [])]}
+                    defaultValue={[...(selectedTags || [])]}
                     filterSelectedOptions
+                    onChange={(event, newValue) => {
+                        handleTagChange(newValue);
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                        // todo: search for tags to reduce load payload
+                        // handleTextSearchInput(newInputValue);
+                    }}
                     renderInput={(params) => {
                         return (
                             <TextField

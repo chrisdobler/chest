@@ -1,6 +1,6 @@
 import { put, all, take, fork } from 'redux-saga/effects';
-import gql from 'graphql-tag';
-import FetchQL, { FetchQLOptions } from 'fetchql';
+// import gql from 'graphql-tag';
+import FetchQL /* { FetchQLOptions } */ from 'fetchql';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import itemActions from '../actions/item';
@@ -28,10 +28,14 @@ function* submitItem(item: Item, location: LocationType) {
         `
     );
     if (item.id) item.id = +item.id;
-    delete item.location;
-    delete item.updatedAt;
-    delete item.createdAt;
-    const removalList: string[] = ['photos'];
+
+    const removalList: string[] = [
+        'photos',
+        'tags',
+        'location',
+        'updatedAt',
+        'createdAt',
+    ];
     Object.keys(item)
         .filter((k) => !removalList.includes(k))
         .forEach((key) => {
@@ -39,6 +43,15 @@ function* submitItem(item: Item, location: LocationType) {
                 name: key,
                 variables: item[key as keyof Item],
             });
+        });
+
+    item.tags &&
+        graphql.addMutation({
+            name: 'tags',
+            noQuotes: true,
+            variables: `[${item.tags
+                .filter((tag) => tag.id)
+                .map((tag) => tag.id as number)}]`,
         });
 
     // add location
@@ -169,7 +182,7 @@ function* deleteItem(itemId: number) {
         name: 'id',
         variables: itemId || -1,
     });
-    const { data } = yield graphql.mutate('deleteItem');
+    yield graphql.mutate('deleteItem');
 }
 
 function* submitItemWatcher() {
