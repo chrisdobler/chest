@@ -43,6 +43,12 @@ const getLocationsComplete = (locations: Array<{}>) => ({
     locations,
 });
 
+// creates a new tag and adds it to the current item
+const addNewTagToItem = (tagString: string) => ({
+    type: actions.ADD_NEW_TAG_TO_ITEM,
+    tagString,
+});
+
 export default {
     submitItemToInventory,
     submitItemToInventoryComplete,
@@ -51,4 +57,5 @@ export default {
     getItemsComplete,
     getLocations,
     getLocationsComplete,
+    addNewTagToItem,
 };

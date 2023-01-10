@@ -1,10 +1,12 @@
-import { Photo, Item, Tag } from '../types/item';
+import { Item, Tag } from '../types/item';
 import actions from '../constants/actions';
 
 export interface IPayload {
     type: string;
     height?: number;
     item?: Item;
+    tag?: Tag;
+    tags?: Tag[];
 }
 
 export const interfaceInitialState = {
@@ -23,11 +25,20 @@ export default (
                 listItemContainerPadding: payload.height ? payload.height : 60,
             };
         case actions.GET_ITEM_SINGLE_COMPLETE:
+            console.log(payload);
             return {
                 ...state,
-                ...(payload?.item?.tags
-                    ? { editorTagOptions: payload.item.tags }
+                ...(payload?.tags
+                    ? { editorTagOptions: payload.tags }
                     : { editorTagOptions: [] }),
+            };
+        case actions.ADD_NEW_TAG_TO_ITEM_COMPLETE:
+            return {
+                ...state,
+                editorTagOptions: [
+                    ...(state.editorTagOptions || []),
+                    payload.tag as Tag,
+                ],
             };
         default:
             return state;

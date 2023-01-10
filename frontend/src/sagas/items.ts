@@ -45,6 +45,7 @@ function* submitItem(item: Item, location: LocationType) {
             });
         });
 
+    console.log(item.tags);
     item.tags &&
         graphql.addMutation({
             name: 'tags',
@@ -129,47 +130,59 @@ function* fetchItemSingle(itemId: string) {
             `item(id: ${itemId})`,
             {},
             `
-        id
-        name
-        updatedAt
-        createdAt
-        location {
             id
             name
-        }
-        tags {
+            updatedAt
+            createdAt
+            location {
+                id
+                name
+            }
+            tags {
+                id
+                name
+            }
+            photos {
+                id
+                src
+            }
+            `
+        );
+        graphql.addType(
+            `tags`,
+            {},
+            `
             id
             name
-        }
-        photos {
-            id
-            src
-        }
         `
         );
         const { data } = yield graphql.execute();
 
-        yield put(itemActions.getItemComplete(data.item));
-    } else {
-        const query = `
-            {
-                tags {
-                    id
-                    name
-                }
-            }
-        `;
-        const fetch = new FetchQL(graphql.options);
-        const { data } = yield fetch.query({
-            operationName: '',
-            query,
-            variables: {},
-            opts: {
-                omitEmptyVariables: true,
-            },
-        });
-        yield put(itemActions.getItemComplete({ tags: data.tags }));
+        yield put(itemActions.getItemComplete(data.item, data.tags));
     }
+
+    // I don't think this is needed
+
+    // else {
+    //     const query = `
+    //         {
+    //             tags {
+    //                 id
+    //                 name
+    //             }
+    //         }
+    //     `;
+    //     const fetch = new FetchQL(graphql.options);
+    //     const { data } = yield fetch.query({
+    //         operationName: '',
+    //         query,
+    //         variables: {},
+    //         opts: {
+    //             omitEmptyVariables: true,
+    //         },
+    //     });
+    //     yield put(itemActions.getItemComplete({ tags: data.tags }));
+    // }
 }
 
 function* deleteItem(itemId: number) {

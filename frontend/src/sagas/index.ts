@@ -2,11 +2,13 @@ import { put, takeLatest, all, fork, take } from 'redux-saga/effects';
 import { GraphQLClass } from '../utilities/graphql';
 import inventoryActions from '../actions/inventory';
 import actions from '../constants/actions';
-import { Item, Photo } from '../types/item';
+import { Photo } from '../types/item';
 
 import itemsFetches from './items';
 import locationsFetches from './locations';
-import { LocationType } from '../types/location';
+import inventoryFetches from './inventory';
+
+// import { LocationType } from '../types/location';
 
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
@@ -72,5 +74,7 @@ export default function* rootSaga() {
         fetchLocationsWatcher(),
         fork(submitLocationWatcher),
         fork(deleteLocationWatcher),
+
+        ...inventoryFetches,
     ]);
 }

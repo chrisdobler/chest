@@ -20,7 +20,7 @@ class Query(object):
         if searchPattern:
             return Tag.objects.filter(name__contains=searchPattern)
         # if there is no serch pattern, then return the default for a new item
-        return Tag.objects.filter(name="new")
+        return Tag.objects.all()
 
     def resolve_items(self, info, locationId: int = None, **kwargs):
         if locationId:

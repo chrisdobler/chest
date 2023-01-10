@@ -125,15 +125,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
     }, [location]);
     useEffect(() => {
         return function cleanup() {
-            dispatch(actions.updateHeightOfEditor(0));
-            dispatch(actions.clearEditorFields());
+            actions.updateHeightOfEditor(0);
+            actions.clearEditorFields();
         };
     }, []);
 
     useLayoutEffect(() => {
         if (sizeRef.current) {
             const height = sizeRef.current.clientHeight;
-            dispatch(actions.updateHeightOfEditor(height));
+            actions.updateHeightOfEditor(height);
         }
     }, [sizeRef.current, sizeRef.current ? sizeRef.current.clientHeight : 0]);
 
@@ -155,18 +155,22 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                 editedItem,
                 editedItem?.location || selectedLocation || null
             );
-        dispatch(actions.updateHeightOfEditor(0));
+        actions.updateHeightOfEditor(0);
         navigate('/items');
     };
 
     const handleDelete = () => {
         if (editedItem && editedItem.id) actions.deleteItem(editedItem.id);
-        dispatch(actions.updateHeightOfEditor(0));
+        actions.updateHeightOfEditor(0);
         navigate('/items');
     };
 
     const handleTagChange = (Tags: Tag[]) => {
         dispatch(allActions.setItemProperty({ key: 'tags', value: Tags }));
+    };
+
+    const handleAddNewTag = (tagString: string) => {
+        dispatch(allActions.addNewTagToItem(tagString));
     };
 
     return (
@@ -206,12 +210,10 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                     onChange={() =>
                         setTimeout(
                             () =>
-                                dispatch(
-                                    actions.updateHeightOfEditor(
-                                        sizeRef.current
-                                            ? sizeRef.current.clientHeight
-                                            : 0
-                                    )
+                                actions.updateHeightOfEditor(
+                                    sizeRef.current
+                                        ? sizeRef.current.clientHeight
+                                        : 0
                                 ),
                             250
                         )
@@ -235,6 +237,7 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                                 actions.getTagOptionsForString
                             }
                             handleTagChange={handleTagChange}
+                            handleAddNewTag={handleAddNewTag}
                             selectedTags={editedItem?.tags || []}
                         />
                         <TextField

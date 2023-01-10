@@ -10,6 +10,7 @@ from ..schema import LocationType, ItemType, PhotoType, TagType
 
 from .location import CreateLocation, DeleteLocation, EditLocation
 from .item import CreateItem, DeleteItem, EditItem
+from .tag import CreateTag
 
 # from .tag import CreateTag, DeleteTag, EditTag
 
@@ -42,5 +43,6 @@ class Mutation(graphene.ObjectType):
     edit_item = EditItem.Field()
     delete_item = DeleteItem.Field()
     add_photo = AddPhoto.Field()
+    create_tag = CreateTag.Field()
 
     # create_tag =

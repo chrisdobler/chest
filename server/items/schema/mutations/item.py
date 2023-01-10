@@ -32,13 +32,12 @@ class EditItem(graphene.Mutation):
 
     def mutate(self, info, id, name, locationId, tags):
         item = Item.objects.get(id=id)
-        pp(tags)
         if name:
             item.name = name
         if locationId:
             item.location = Location.objects.get(id=locationId)
-        # if tags:
-        # item.tags =
+        if tags:
+            item.tags.set(tags)
 
         item.save()
         return EditItem(item=item)
