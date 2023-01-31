@@ -149,21 +149,21 @@ function* fetchItemSingle(itemId: string) {
             }
             `
         );
-        graphql.addType(
-            `tags`,
-            {},
-            `
+    }
+    graphql.addType(
+        `tags`,
+        {},
+        `
             id
             name
         `
-        );
-        const { data } = yield graphql.execute();
+    );
+    const { data } = yield graphql.execute();
 
 
-        // this it temporary, we don't want to fetch all tags at once CH-1
-        yield put(allActions.addNewTagToEditor({ tags: data.tags }));
-        yield put(itemActions.getItemComplete(data.item));
-    }
+    // this it temporary, we don't want to fetch all tags at once CH-1
+    yield put(allActions.addNewTagToEditor({ tags: data.tags }));
+    if (data.item) yield put(itemActions.getItemComplete(data.item));
 
     // I don't think this is needed
 
