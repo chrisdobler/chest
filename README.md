@@ -7,11 +7,15 @@ Later, when you go back and review, you could add meta data like tags and text
 descriptions. Again the whole focus is quick and efficient data entry which would
 be a photo and location minimum.
 
+# Initializing server env
+
+    $ mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1
+
 # Starting Server Locally
 
     $ source venv/bin/activate
-    $ ./manage.py migrate
-    $ ./manage.py runserver
+    $ python migrate
+    $ python manage.py runserver_plus --cert-file cert.pem --key-file key.pem
 
     $ docker-compose up -d
     $ docker-compose logs
