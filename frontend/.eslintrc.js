@@ -39,7 +39,23 @@ module.exports = {
         // this is added to prevent a false positive in ts 3.7 with optional chaining
         'no-unused-expressions': OFF,
         '@typescript-eslint/no-unused-expressions': OFF,
+
+        'no-unused-vars': OFF,
     },
+    overrides: [
+        {
+            files: ['*.js', '*.ts'],
+            rules: {
+                '@typescript-eslint/no-unused-vars': [
+                    WARN,
+                    {
+                        varsIgnorePattern: '[iI]gnored',
+                        argsIgnorePattern: '^_',
+                    },
+                ],
+            },
+        },
+    ],
     parserOptions: {
         project: ['./tsconfig.json'],
     },
