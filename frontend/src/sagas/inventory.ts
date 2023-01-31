@@ -33,7 +33,7 @@ function* submitTag(tagString: string) {
 
     const { data } = yield graphql.mutate('createTag');
 
-    yield put(allActions.addNewTagToItemComplete(data.createTag.tag));
+    yield put(allActions.addNewTagToEditor({ tag: data.createTag.tag }));
 }
 
 function* submitTagWatcher() {

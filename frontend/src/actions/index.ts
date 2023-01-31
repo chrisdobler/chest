@@ -6,9 +6,16 @@ import Types from '../types';
 
 import actions from '../constants/actions';
 
-const addNewTagToItemComplete = (tag: Types.Tag) => ({
-    type: actions.ADD_NEW_TAG_TO_ITEM_COMPLETE,
+const addNewTagToEditor = ({
     tag,
+    tags,
+}: {
+    tag?: Types.Tag;
+    tags?: Types.Tag[];
+}) => ({
+    type: actions.ADD_TAG_OPTIONS_TO_EDITOR,
+    tag,
+    tags,
 });
 
 export default {
@@ -16,5 +23,5 @@ export default {
     ...inventoryActions,
     ...interfaceActions,
     ...itemActions,
-    addNewTagToItemComplete,
+    addNewTagToEditor,
 };

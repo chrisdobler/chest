@@ -32,10 +32,9 @@ const getItem = (itemId: number | null) => ({
     itemId,
 });
 
-const getItemComplete = (item: Item, tags: Types.Tag[]) => ({
+const getItemComplete = (item: Item) => ({
     type: actions.GET_ITEM_SINGLE_COMPLETE,
     item,
-    tags,
 });
 
 const clearEditorFields = () => ({

@@ -7,6 +7,7 @@ import itemActions from '../actions/item';
 import { Item, Photo } from '../types/item';
 import { LocationType } from '../types/location';
 import actions from '../constants/actions';
+import allActions from '../actions';
 
 const { REACT_APP_CHEST_API_URL } = process.env;
 const apiUrl = `${REACT_APP_CHEST_API_URL}/graphql/`;
@@ -158,7 +159,10 @@ function* fetchItemSingle(itemId: string) {
         );
         const { data } = yield graphql.execute();
 
-        yield put(itemActions.getItemComplete(data.item, data.tags));
+
+        // this it temporary, we don't want to fetch all tags at once CH-1
+        yield put(allActions.addNewTagToEditor({ tags: data.tags }));
+        yield put(itemActions.getItemComplete(data.item));
     }
 
     // I don't think this is needed

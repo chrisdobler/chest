@@ -24,6 +24,6 @@ const actions = {
 
     // inventory actions
     ADD_NEW_TAG_TO_ITEM: 'ADD_NEW_TAG_TO_ITEM',
-    ADD_NEW_TAG_TO_ITEM_COMPLETE: 'ADD_NEW_TAG_TO_ITEM_COMPLETE',
+    ADD_TAG_OPTIONS_TO_EDITOR: 'ADD_TAG_OPTIONS_TO_EDITOR',
 };
 export default actions;
