@@ -20,8 +20,6 @@ export default function AutoCompleteTags({
     handleAddNewTag,
     selectedTags,
 }: Props) {
-    console.log(currentTagOptions);
-
     return (
         <Stack
             spacing={3}

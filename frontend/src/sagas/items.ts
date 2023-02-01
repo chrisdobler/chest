@@ -46,13 +46,12 @@ function* submitItem(item: Item, location: LocationType) {
             });
         });
 
-    console.log(item.tags);
     item.tags &&
         graphql.addMutation({
             name: 'tags',
             noQuotes: true,
             variables: `[${item.tags
-                .filter((tag) => tag.id)
+                .filter((tag) => !tag.id)
                 .map((tag) => tag.id as number)}]`,
         });
 
@@ -68,14 +67,15 @@ function* submitItem(item: Item, location: LocationType) {
     const receivedItem = item.id ? data.editItem.item : data.createItem.item;
 
     // submit photos
-    yield all(
-        item.photos.map(function* (photo: Photo) {
-            if (!photo.id) {
-                yield put(itemActions.sendPhoto(photo, receivedItem.id));
-            }
-            return photo;
-        })
-    );
+    if (item.photos)
+        yield all(
+            item.photos.map(function* (photo: Photo) {
+                if (!photo.id) {
+                    yield put(itemActions.sendPhoto(photo, receivedItem.id));
+                }
+                return photo;
+            })
+        );
 
     yield put(
         inventoryActions.submitItemToInventoryComplete({
@@ -159,7 +159,6 @@ function* fetchItemSingle(itemId: string) {
         `
     );
     const { data } = yield graphql.execute();
-
 
     // this it temporary, we don't want to fetch all tags at once CH-1
     yield put(allActions.addNewTagToEditor({ tags: data.tags }));

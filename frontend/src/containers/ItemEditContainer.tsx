@@ -123,7 +123,15 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
             (itemId && editedItem?.id !== +itemId && +itemId) || null
         );
     }, [location]);
+
     useEffect(() => {
+        // when adding a new item, set a tag for 'new'
+        if (!editedItem?.id) {
+            actions.setItemProperty({
+                key: 'tags',
+                value: [{ id: 0, name: 'new' }],
+            });
+        }
         return function cleanup() {
             actions.updateHeightOfEditor(0);
             actions.clearEditorFields();
@@ -238,7 +246,9 @@ const ItemEditContainer: React.FC<Props> = (props: Props) => {
                             }
                             handleTagChange={handleTagChange}
                             handleAddNewTag={handleAddNewTag}
-                            selectedTags={editedItem?.tags || []}
+                            selectedTags={
+                                editedItem?.tags || [{ id: 0, name: 'new' }]
+                            }
                         />
                         <TextField
                             id='name'

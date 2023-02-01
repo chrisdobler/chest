@@ -182,9 +182,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ALLOWED_HOSTS = [
-    "http://localhost:3000",
-    "http://api.chestapp.io/",
+    "https://localhost:3000",
+    "https://api.chestapp.io",
     "*",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = ("http://localhost:3000", "http://localhost")
+CORS_ORIGIN_WHITELIST = (
+    "https://localhost:3000",
+    "https://localhost",
+    "https://api.chestapp.io",
+)

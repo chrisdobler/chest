@@ -10,6 +10,9 @@ be a photo and location minimum.
 # Initializing server env
 
     $ mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1
+    $ python manage.py loaddata <fixturename>
+
+    $ dokku nginx:set chest-api client-max-body-size 50m
 
 # Starting Server Locally
 
