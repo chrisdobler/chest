@@ -1,4 +1,4 @@
-# WIP - chest
+Chest
 
 This is an organization app, which focuses on fast input, so you would tag
 posessions fast and efficiently. Quick dumps of items are saved for later review.
